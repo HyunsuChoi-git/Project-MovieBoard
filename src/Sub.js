@@ -1,5 +1,7 @@
 import React from 'react';
 
+let num = 10;
+
 const Sub = () => {
     return (
         <div>
@@ -8,4 +10,5 @@ const Sub = () => {
     );
 };
 
+export { num };
 export default Sub;

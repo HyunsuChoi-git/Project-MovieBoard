@@ -1,31 +1,28 @@
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
-  console.log("App 실행됨");
 
-  let sample = [
-    {id:1, name:"홍길동"},
-    {id:2, name:"홍길순"},
-    {id:3, name:"홍길훈"},
-    {id:4, name:"홍길영"},
-  ]
-
-  const [users, setUsers] = useState(sample);
+  const [data, setData] = useState(0);
+  const [init, setInit] = useState(0);
 
   const download = () => {
-    const sample2 = [...sample, {id:5, name:"홍길자"}]
-    setUsers(sample2);
+    let downloadData = 5;
+    setData(downloadData);
   }
 
-  //랜더링 시점 = 상태값 변경 => 레퍼런스 변경
+  useEffect(()=>{
+   console.log("useEffact 실행됨");
+   download();
+  }, [init]);
+
+
   return (
     <div>
-      <button onClick={download}>다운로드</button>
-      {users.map(u=>
-        <h1>
-          {u.id} / {u.name}
-        </h1>
-      )}
+      <button onClick={() => { setInit(data); }}>초기화</button>
+      <h1>데이터 : {data}</h1>
+      <button onClick={() => { setData(data+1); }}>더하기</button>
     </div>
     
   );
