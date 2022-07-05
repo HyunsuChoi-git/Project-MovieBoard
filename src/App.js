@@ -1,28 +1,31 @@
-
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import './App.css';
 
 function App() {
 
-  const [data, setData] = useState(0);
-  const [init, setInit] = useState(0);
+  const [list, setList] = useState([1,2,3]);
+  const [str, setStr] = useState("합계");
 
-  const download = () => {
-    let downloadData = 5;
-    setData(downloadData);
+  const getAddResult = () => {
+    let sum = 0;
+    list.forEach(i => sum = sum + i);
+    console.log(sum+"1");
+    return sum;
   }
 
-  useEffect(()=>{
-   console.log("useEffact 실행됨");
-   download();
-  }, [init]);
+  const addResult = useMemo(()=>getAddResult(), [list]);
 
 
   return (
     <div>
-      <button onClick={() => { setInit(data); }}>초기화</button>
-      <h1>데이터 : {data}</h1>
-      <button onClick={() => { setData(data+1); }}>더하기</button>
+      <button onClick={() => {
+        setList([...list, 10]);
+      }}>리스트 값 추가</button>
+      <button onClick={() => {
+        setStr("최종 합계");
+      }}>값 추가 종료</button>
+      {list.map(n => <h1>{n}</h1>)}
+      <div>{str}: {addResult}</div>
     </div>
     
   );
