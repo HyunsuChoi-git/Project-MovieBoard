@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>React App</title>
+  </head>
+  <body>
+    <script>
+        //concat, filter, map, slice, 스프레스(전개) 연산자
+        const a = [1,2,3];
+        const b = [...a];  //깊은 복사
+        const c = a; //얗은 복사
+        console.log("================== 스프레드 연산자");
+        // 배열 복제할 때 쓰임
+        b.push(4);  // b 데이터 변경함수
+        c.push(5);  // b 데이터 변경
+        console.log(`a의 값은 : ${a}`); // 1,2,3,5
+        console.log(`b의 값은 : ${b}`); // 1,2,3,4
+        console.log(`b의 값은 : ${c}`); // 1,2,3,5
+
+        console.log("================== concat");
+        // 추구할 때 쓰임
+        const a2 = [1,2,3];
+        const b2 = a.concat(4);  // a 데이터 변경X. 불변함수. 따로 변수에 담지않고 a.concat(4); 만 써도 a변수 값에는 변화가 없음
+        console.log(`a의 값은 : ${a2}`); // 1,2,3
+        console.log(`b의 값은 : ${b2}`); // 1,2,3,4
+
+        console.log("================== 걸러내기 filter");
+        // 삭제하기 할 때 쓰임. 
+        const a3 = [1,2,3];
+        const b3 = a3.filter((n)=> {return n != 1;});    //a3에 있는 값을 하나씩 ()안의 함수에 넣어줌
+                                              //boolean을 리턴하는데, 그 중 True만 걸러낸다.
+        console.log(`a의 값은 : ${b3}`); // 2,3   
+
+
+        console.log("================== 잘라내기 splice");
+        const a4 = [1,2,3];
+        const b4 = a4.slice(0,2);
+        const c4 = [a4.slice(0,2)];
+        const d4 = [...a4.slice(0,2)];
+        const e4 = [0, ...a4.slice(0,2), 4, ...a4.slice(2,3)]; // 잘라내기, 삽입하기 응용
+
+        console.log(b4); // [1,2]
+        console.log(c4); // [[1,2]]
+        console.log(d4); // [1,2]
+        console.log(c4); // [0, 1, 2, 4, 3]
+
+
+        console.log("================== 반복하기 map");
+        const a5 = [1,2,3];
+        a5.forEach((i) => { console.log(i); });  // 1, 2, 3   ---> forEach는 리턴이 void라 리턴할 수 없음. 
+
+        const b5 = a5.map((i) => i); //i 를 바로 리턴하여 b5에 넣을 수 있다. 
+        // === const b5 = [...a5];
+        // 값 하나하나를 가공하여 복사할 수 있다는 장점이 있다.
+
+
+
+        console.log("================== 수정하기");
+        const a6 = { id:1, name: "홍길동", age:30, phone:"123-123", job:"개발자", gen:"남"};
+        const b6 = {...a6};
+        const c6 = {...a6, name: "임꺽정"};  // a6를 복제하고 내부 name값만 변경한다.  
+        //   === {id:1, name:"홍길동", name: "임꺽정"}; --> 덮어쓰기 되어 뒤어것이 값으로 들어가는 것.
+
+        const data = {phone:"234-234"};
+        const d6 = {...a6, ...data}; // phone 번호가 바뀐 새로운 배열로 다시 만들어줌. 데이터 순서를 잘 지켜야 한다.   
+
+
+        const users =[
+            {id:1, name:"aaa", phone: "123-124"},
+            {id:2, name:"bbb", phone: "123-125"},
+            {id:3, name:"ccc", phone: "123-126"},
+            {id:4, name:"ddd", phone: "123-127"},
+        ]
+
+        const updateUserDto ={
+            id:2, name:"bbc"
+        }
+        // updateUserDto id와 같은 데이터의 name을 업데이트 하기
+        const newUser = users.map( user => (id === updateUserDto.id) ? {...user, ...updateUserDto} : user);
+
+
+    </script>
+  </body>
+</html>
