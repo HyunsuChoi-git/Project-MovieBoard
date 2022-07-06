@@ -20,7 +20,7 @@ function App() {
     <div>
       <button onClick={() => {
         setList([...list, 10]);
-      }}>리스트 값 추가</button>
+      }}>리스트 값 추가1</button>
       <button onClick={() => {
         setStr("최종 합계");
       }}>값 추가 종료</button>
