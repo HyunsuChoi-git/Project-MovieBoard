@@ -1,32 +1,34 @@
-import { useMemo, useState } from 'react';
+import { createRef, useMemo, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
 
-  const [list, setList] = useState([1,2,3]);
-  const [str, setStr] = useState("합계");
+  const myRef = useRef(null);
 
-  const getAddResult = () => {
-    let sum = 0;
-    list.forEach(i => sum = sum + i);
-    console.log(sum+"1");
-    return sum;
-  }
+  const [list, setList] = useState([{id:1,name:"길동"}, {id:2,name:"꺽정"}])
 
-  const addResult = useMemo(()=>getAddResult(), [list]);
-
+  // list 길이 만큼 myRef를 생성하여 리스트에 저장
+  const myRefs = Array.from({length:list.length}).map(() => createRef());
 
   return (
     <div>
-      <button onClick={() => {
-        setList([...list, 10]);
-      }}>리스트 값 추가1</button>
-      <button onClick={() => {
-        setStr("최종 합계");
-      }}>값 추가 종료</button>
-      {list.map(n => <h1>{n}</h1>)}
-      <div>{str}: {addResult}</div>
+      <button onClick={()=> {
+        console.log(myRef);
+        console.log(myRef.current);  // <div>박스</div>
+        console.log(list);
+        myRef.current.style.backgroundColor='red';
+        myRefs[0].current.style.backgroundColor='green';
+        myRefs[1].current.style.backgroundColor='yellow';
+      }}>색변경</button>
+      <div ref={myRef}>박스</div>
+
+      {list.map((user, index)=>(
+        <h1 ref={myRefs[index]}>{user.id}. {user.name}</h1>
+      ))}
     </div>
+
+
+
     
   );
 }
