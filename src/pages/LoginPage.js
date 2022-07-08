@@ -1,18 +1,20 @@
 import React from 'react';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
 import Login from '../components/login/Login';
+import { useParams, useNavigate} from 'react-router-dom';
 
 
 // 페이지는 컴포넌트들의 조합니다.
 // 컴포넌트를 만들어놓으면 재사용할 수 있다.
 
 const LoginPage = () => {
+    const {id} = useParams();
+    const navigate = useNavigate();
     return (
         <div>
-            <Header/>
+            {id}
             <Login/>
-            <Footer/>
+            <button onClick={() => navigate(-1)}>뒤로가기</button>
+            <button onClick={() => navigate("/")}>홈으로</button>
         </div>
     );
 };

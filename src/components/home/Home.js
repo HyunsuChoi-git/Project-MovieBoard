@@ -11,8 +11,6 @@ let StyledAddButton = styled(StyledDeleteButton)`
 
 
 const Home = (props) => {
-    console.log(props);
-    console.log(props.boards);
 
     //구조분할할당
     const { boards, setBoards, user} = props;
@@ -22,7 +20,7 @@ const Home = (props) => {
           <StyledAddButton user={user} onClick={() => setBoards([...boards, {id:4,title:' 제목4',content:'내용4'}])}>더하기</StyledAddButton>
           <StyledDeleteButton user={user} onClick={() => setBoards([])}>전체삭제</StyledDeleteButton>
           {boards.map((board)=>(
-            <h3>제목: {board.title}, 내용: {board.content} </h3>
+            <h3 key={board.id}>제목: {board.title}, 내용: {board.content} </h3>
           ))}
         </div>
     );
