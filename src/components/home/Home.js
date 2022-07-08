@@ -3,7 +3,10 @@ import styled from 'styled-components';
 
 
 let StyledDeleteButton = styled.button`
-color : ${(props) => props.user.name === 'hera' ? 'blue' : 'yellow'};
+    color : ${(props) => props.user.name === 'hera' ? 'blue' : 'black'};
+`;
+let StyledAddButton = styled(StyledDeleteButton)`
+    background-color: beige;
 `;
 
 
@@ -12,11 +15,12 @@ const Home = (props) => {
     console.log(props.boards);
 
     //구조분할할당
-    const { boards, setBoards, user, setUser} = props;
+    const { boards, setBoards, user} = props;
 
     return (
         <div>
-          <StyledDeleteButton user={user} onClick={() => setUser({...user, name:'su'})}>전체삭제</StyledDeleteButton>
+          <StyledAddButton user={user} onClick={() => setBoards([...boards, {id:4,title:' 제목4',content:'내용4'}])}>더하기</StyledAddButton>
+          <StyledDeleteButton user={user} onClick={() => setBoards([])}>전체삭제</StyledDeleteButton>
           {boards.map((board)=>(
             <h3>제목: {board.title}, 내용: {board.content} </h3>
           ))}
