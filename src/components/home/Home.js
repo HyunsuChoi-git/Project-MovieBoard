@@ -1,4 +1,6 @@
+
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 
 
@@ -17,6 +19,7 @@ const Home = (props) => {
 
     return (
         <div>
+          <Button variant="primary">Primary</Button>{' '}
           <StyledAddButton user={user} onClick={() => setBoards([...boards, {id:4,title:' 제목4',content:'내용4'}])}>더하기</StyledAddButton>
           <StyledDeleteButton user={user} onClick={() => setBoards([])}>전체삭제</StyledDeleteButton>
           {boards.map((board)=>(
