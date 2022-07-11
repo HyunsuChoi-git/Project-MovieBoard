@@ -1,21 +1,16 @@
 import './App.css';
-import Footer from './components/Footer';
-import Header from './components/Header';
 import { Route } from 'react-router-dom'
 import { Routes } from 'react-router-dom'
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-
+import ListPage from './pages/ListPage';
+import Navigation from './components/Navigation';
 
 function App() {
   return (
     <div>
-      <Header/>
+      <Navigation />
       <Routes>
-        <Route path="/" element={<HomePage />}/>
-        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/" exact={true} element={<ListPage/>} />
       </Routes>
-      <Footer />
     </div>
     
   );
