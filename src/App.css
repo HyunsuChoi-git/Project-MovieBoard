@@ -1,3 +1,13 @@
-.box-style {
-  color: blue;
+.container {
+  height: 700;
+  border: 2px solid black;
+}
+
+.sub_container {
+  height: 250;
+  border: 2px solid black;
+}
+
+div {
+  padding: 10px;
 }

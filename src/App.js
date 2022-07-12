@@ -1,16 +1,17 @@
+import React, { useState } from 'react';
 import './App.css';
-import { Route } from 'react-router-dom'
-import { Routes } from 'react-router-dom'
-import ListPage from './pages/ListPage';
-import Navigation from './components/Navigation';
+import Bottom from './components/Bottom';
+import Top from './components/Top.js';
 
 function App() {
+
+  
   return (
-    <div>
-      <Navigation />
-      <Routes>
-        <Route path="/" exact={true} element={<ListPage/>} />
-      </Routes>
+    <div className='container'> 
+    <h1>최상단</h1>
+    <Top/>
+    <Bottom/>
+
     </div>
     
   );
