@@ -1,5 +1,6 @@
 package com.heracomp.memoboard_spring.web;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -18,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
@@ -160,15 +162,25 @@ public class MemoControllerUnitTest {
 		//given
 		Long id = (long) 1;
 		
+		when(memoService.deleteMemo(id)).thenReturn("ok");
+		
 		//when
 		ResultActions resultActions = mockMvc.perform(
 				delete("/memo/"+id)
-				.accept(MediaType.APPLICATION_JSON_UTF8)
+				.accept(MediaType.TEXT_PLAIN)
 				);
 		
 		//then
 		resultActions.andExpect(status().isOk())
 			.andDo(MockMvcResultHandlers.print());
+		
+		// 리턴값으로 String을 받아보고 싶을 때에는 아래 과정을 더 거쳐주어야 한다.
+		MvcResult requestResult = resultActions.andReturn();
+		String result = requestResult.getResponse().getContentAsString();
+		
+		assertEquals("ok", result);
+		
+		System.out.println(result);
 
 	}
 	
