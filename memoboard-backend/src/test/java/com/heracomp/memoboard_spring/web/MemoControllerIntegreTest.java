@@ -1,6 +1,5 @@
 package com.heracomp.memoboard_spring.web;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -8,13 +7,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -53,9 +50,9 @@ public class MemoControllerIntegreTest {
 	@BeforeEach // 매 매소드가 실행되고 끝날 때마다 함수를 실행시켜주는 어노테이션
 	public void init() {
 		// db AUTO_INCREMENT는 함수 실행마다 계속 증가되므로 매번 초기화 시켜주어야 함. 번호증가 초기화 문법은 sql마다 다름
-		//entityManager.createNamedQuery("ALTER TABLE MEMO ALTER COLUMN ID RESTART WITH 1").executeUpdate();
-//		entityManager.createNamedQuery("alter table memo alter column id restart with 1").executeUpdate();
-		entityManager.createNamedQuery("SELECT * FROM MEMO").executeUpdate();
+		//entityManager.createNamedQuery("ALTER TABLE memo ALTER COLUMN id RESTART WITH 1").executeUpdate();
+		//entityManager.createNamedQuery("ALTER TABLE memo AUTO_INCREMENT = 1").executeUpdate();    MySQL 코드
+		//entityManager.createNamedQuery("SELECT * FROM MEMO").executeUpdate();
 		List<Memo> memoList = new ArrayList<>();
 		memoList.add(new Memo(1L,"제목1","제목1"));
 		memoList.add(new Memo(2L,"제목2","제목2"));

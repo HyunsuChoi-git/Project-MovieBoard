@@ -1,11 +1,18 @@
 package com.heracomp.memoboard_spring.service;
 
+import static org.mockito.Mockito.when;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.heracomp.memoboard_spring.domain.Memo;
 import com.heracomp.memoboard_spring.domain.MemoRepository;
+
+import lombok.extern.slf4j.Slf4j;
 
 // service에 관련된 bean(MemoRepository)만 IoC에 띄워서 테스트 하면 됨
 
@@ -21,7 +28,7 @@ import com.heracomp.memoboard_spring.domain.MemoRepository;
  * @InjectMocks : Mockito에 올라온 객체를 모두 주입받는 어노테이션. 
  * 
  */
-
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 public class MemoServiceUnitTest {
 	
@@ -30,5 +37,23 @@ public class MemoServiceUnitTest {
 	
 	@Mock
 	private MemoRepository memoRepository;
+	
+	
+	@Test
+	public void saveMemo_Test() {
+		log.info("saveMemo_Test() 시작 ======================================");
+		
+		// given
+		Memo memo = new Memo(1L,"저장","저장테스트");
+		when(memoRepository.save(memo)).thenReturn(memo);
+			
+		//when
+		Memo saveResult = memoService.saveMemo(memo);
+		
+		//then
+		assertEquals(saveResult, memo);
+	}
+
+
 	
 }

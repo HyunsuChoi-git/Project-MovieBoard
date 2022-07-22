@@ -2,6 +2,8 @@ package com.heracomp.memoboard_spring.domain;
 
 import javax.transaction.Transactional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -26,5 +28,18 @@ public class MemoRepositoryUnitTest {
 	
 	@Autowired
 	private MemoRepository memoRepository;
+	
+	
+	@Test
+	public void save_Test() {
+		//given
+		Memo memo = new Memo(null, "저장","저장테스트");
+		
+		//when
+		Memo saveResult = memoRepository.save(memo);
+		
+		//then
+		assertEquals("저장", saveResult.getTitle());
+	}
 	
 }
