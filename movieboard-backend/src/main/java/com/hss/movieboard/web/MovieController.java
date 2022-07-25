@@ -2,6 +2,7 @@ package com.hss.movieboard.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,12 +22,13 @@ public class MovieController {
 	
 	private final MovieService movieService;
 	
-	
+	@CrossOrigin
 	@PostMapping("/movie")
 	public ResponseEntity<?> save(@RequestBody Movie movie){
 		return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED); //200
 	}
 	
+	@CrossOrigin		// CORS 정책으로 인한 외부 자바스크립트 요청 제한을 해제하는 어노테이션.
 	@GetMapping("/movie")
 	public ResponseEntity<?> findAll(){
 		// ResponseEntity타입은 http status 코드도 함께 보낼 수 있어서 쓰임

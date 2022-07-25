@@ -56,9 +56,9 @@ public class MovieControllerIntegreTest {
 		//entityManager.createNamedQuery("ALTER TABLE Movie AUTO_INCREMENT = 1").executeUpdate();    MySQL 코드
 		//entityManager.createNamedQuery("SELECT * FROM Movie").executeUpdate();
 		List<Movie> movieList = new ArrayList<>();
-		movieList.add(new Movie(1L,"제목1","제목1"));
-		movieList.add(new Movie(2L,"제목2","제목2"));
-		movieList.add(new Movie(3L,"제목3","제목3"));
+		movieList.add(new Movie(1L,"제목1","제목1","스릴러",3, ""));
+		movieList.add(new Movie(2L,"제목2","제목2","스릴러",3, ""));
+		movieList.add(new Movie(3L,"제목3","제목3","스릴러",3, ""));
 		movieRepository.save(movieList.get(0));
 		movieRepository.save(movieList.get(1));
 		movieRepository.save(movieList.get(2));
@@ -74,7 +74,7 @@ public class MovieControllerIntegreTest {
 		log.info("save_test() 시작 ======================================");
 		
 		//1. given (테스트를 위한 준비)
-		Movie movie = new Movie(null, "test제목", "test");
+		Movie movie = new Movie(null, "test제목", "test","스릴러",3, "");
 		String content = new ObjectMapper().writeValueAsString(movie);	
 		
 		//3. when (실행)
@@ -119,7 +119,7 @@ public class MovieControllerIntegreTest {
 		
 		//given
 		Long id = 1L;
-		movieRepository.save(new Movie(1L,"첫번째 게시물","hera"));
+		movieRepository.save(new Movie(1L,"첫번째 게시물","hera","스릴러",3, ""));
 		
 		//when
 		ResultActions resultActions = mockMvc.perform(
@@ -139,9 +139,9 @@ public class MovieControllerIntegreTest {
 		log.info("update_test() START =======================================");
 		
 		//given
-		movieRepository.save(new Movie(1L,"첫번째 게시물","hera"));
+		movieRepository.save(new Movie(1L,"첫번째 게시물","hera","스릴러",3, ""));
 		Long id = (long) 1;
-		Movie movie = new Movie(1L,"안녕하세요.","hera");
+		Movie movie = new Movie(1L,"안녕하세요.","hera","스릴러",3, "");
 		
 		String content = new ObjectMapper().writeValueAsString(movie);	
 		
@@ -167,7 +167,7 @@ public class MovieControllerIntegreTest {
 		
 		//given
 		Long id = (long) 1;
-		movieRepository.save(new Movie(1L,"첫번째 게시물","hera"));
+		movieRepository.save(new Movie(1L,"첫번째 게시물","hera","스릴러",3, ""));
 		
 		//when
 		ResultActions resultActions = mockMvc.perform(

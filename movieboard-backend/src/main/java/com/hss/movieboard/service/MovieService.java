@@ -19,6 +19,10 @@ public class MovieService {
 	@Transactional   // 서비스 함수가 종료될 때(return될 떄) data를 커밋할 지, 롤백할 지 관리함.
 	public Movie saveMovie(Movie movie) {
 		
+		if(movie.getPhoto() == null) {
+			movie.setPhoto("basic.png");
+		}
+		
 		return movieRepository.save(movie);
 	}
 	

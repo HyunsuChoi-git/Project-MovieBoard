@@ -44,7 +44,7 @@ public class MovieServiceUnitTest {
 		log.info("saveMovie_Test() 시작 ======================================");
 		
 		// given
-		Movie movie = new Movie(1L,"저장","저장테스트");
+		Movie movie = new Movie(1L,"저장","저장테스트","스릴러",4, "");
 		when(movieRepository.save(movie)).thenReturn(movie);
 			
 		//when

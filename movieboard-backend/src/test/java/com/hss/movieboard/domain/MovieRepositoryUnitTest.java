@@ -33,7 +33,7 @@ public class MovieRepositoryUnitTest {
 	@Test
 	public void save_Test() {
 		//given
-		Movie movie = new Movie(null, "저장","저장테스트");
+		Movie movie = new Movie(null, "저장","김저장","스릴러",4, "");
 		
 		//when
 		Movie saveResult = movieRepository.save(movie);

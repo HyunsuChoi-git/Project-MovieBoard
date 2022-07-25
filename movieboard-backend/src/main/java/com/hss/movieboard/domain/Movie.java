@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,5 +22,12 @@ public class Movie {
 	
 	private String title;
 	private String director;
+	private String genre;
+	
+	@Min(0)
+	@Max(10)
+	private int grade;
+	
+	private String photo;
 
 }
