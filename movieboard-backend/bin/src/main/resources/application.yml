@@ -1,0 +1,19 @@
+server:
+  servlet:
+    encoding:
+      charset: utf-8   # 들어오는 모든 데이터를 utf-8로 받겠다. 
+      enabled: true
+      
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+    
+  jpa:
+    hibernate:
+      ddl-auto: create # create(서버 실행마다 테이블 새로 만들어짐), update(서버꺼져도 기존테이블 안사라짐), none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        #모델 네이밍에 맞출 것임을 명시함. 내가 적은 이름 그대로 컬럼명 만들어짐 
