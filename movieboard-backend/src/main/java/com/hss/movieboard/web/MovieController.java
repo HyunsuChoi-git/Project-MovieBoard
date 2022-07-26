@@ -24,7 +24,7 @@ public class MovieController {
 	
 	private final MovieService movieService;
 	
-	@CrossOrigin
+
 	@PostMapping("/movie")
 	public ResponseEntity<?> save(@RequestBody Movie movie){
 		return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED); //200

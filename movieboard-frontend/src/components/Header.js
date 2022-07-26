@@ -9,7 +9,7 @@ const Header = () => {
                 <Container>
                     <Link to='/' className='navbar-brand'>무빙</Link>
                     <Nav className="me-auto">
-                        <Link to='/loginForm' className='nav-link'>LOHIN</Link>
+                        <Link to='/loginForm' className='nav-link'>LOGIN</Link>
                         <Link to='/joinForm' className='nav-link'>JOIN</Link>
                         <Link to='/addForm' className='nav-link'>ADD</Link>
                     </Nav>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card } from 'react-bootstrap';
+import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalf } from "@fortawesome/free-solid-svg-icons";
@@ -8,8 +8,9 @@ import { faStar, faStarHalf } from "@fortawesome/free-solid-svg-icons";
 
 const Detail = (props) => {
 
-    const propsParam = useParams();
-    const id =  propsParam.id;
+    // const propsParam = useParams();
+    // const id =  propsParam.id;
+    const {id} = props;
 
     const [ movie, setMovie ] = useState({
         id: '',
@@ -29,17 +30,33 @@ const Detail = (props) => {
                 console.log(1, res);
                 setMovie(res);
             });
-
-
     }, []);
 
 
     return (
-        <div >
-            <h1>상세보기</h1>
+        <Container>
+            <Row>
+                <Col xs={12} md={8}>
+                .col-xs-12 .col-md-8
+                </Col>
+                <Col xs={6} md={4}>
+                .col-xs-6 .col-md-4
+                </Col>
+            </Row>
 
- 
-        </div>
+            <Row>
+                <Col xs={6} md={4}>
+                .col-xs-6 .col-md-4
+                </Col>
+                <Col xs={6} md={4}>
+                .col-xs-6 .col-md-4
+                </Col>
+                <Col xs={6} md={4}>
+                .col-xs-6 .col-md-4
+                </Col>
+            </Row>
+        </Container>
+
     );
 };
 

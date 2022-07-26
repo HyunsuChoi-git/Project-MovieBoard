@@ -3,12 +3,6 @@ import MovieItem from '../../components/MovieItem';
 import styled from "styled-components";
 
 
-const StyledItemDiv = styled.div`
-    display: inline-flexbox;
-    margin-left: 0.5em;
-    margin-top: 1em;
-
-`;
 
 const StyledContainerDiv = styled.div`
     text-align: center;
@@ -31,9 +25,7 @@ const Home = () => {
     return (
         <StyledContainerDiv>
             {moives.map((movie)=>(
-                <StyledItemDiv>
-                    <MovieItem key={movie.id} movie={movie}/>
-                </StyledItemDiv>
+                <MovieItem key={movie.id} movie={movie}/>
             ))}
         </StyledContainerDiv>        
     );
