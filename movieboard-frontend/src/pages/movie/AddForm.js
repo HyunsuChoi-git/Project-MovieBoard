@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-const AddForm = (props) => {
+const AddForm = () => {
 
     const [movie, setMovie] = useState({
         title : '',
@@ -32,7 +32,7 @@ const AddForm = (props) => {
         .then(res=> {
             console.log(res);
         }).catch((err) => {
-            alert('등록을 실패하였습니다.');
+            alert('등록에 실패하였습니다.');
         }
         );
     }
