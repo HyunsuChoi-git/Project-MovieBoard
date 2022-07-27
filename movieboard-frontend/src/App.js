@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path='/' exact={true} element={<Home />}/>
           <Route path='/addForm' exact={true} element={<AddForm/>}/>
-          <Route path='/movie/:id' exact={true} element={<Detail />}/>
+          <Route path='moive/:id' exact={true} element={<Detail />}/>
           <Route path='/loginForm' exact={true} element={<LoginForm/>}/>
           <Route path='/joinForm' exact={true} element={<JoinForm />}/>
           <Route path='/updateForm' exact={true} element={<UpdateForm />}/>

@@ -16,6 +16,7 @@
 - yarn add @fortawesome/fontawesome-svg-core
 - yarn add @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-brands-svg-icons
 - yarn add @fortawesome/react-fontawesome@latest
+- yarn add file-saver
 
 '''txt
 import 'bootstrap/dist/css/bootstrap.min.css';

@@ -6,12 +6,13 @@ import styled from "styled-components";
 
 const StyledContainerDiv = styled.div`
     text-align: center;
+    margin: 0 auto;
 `;
 
 const Home = () => {
 
 
-    const [moives, setMovies] = useState([])
+    const [moives, setMovies] = useState([]);
 
     useEffect(()=> {
         fetch('http://localhost:8080/movie', {  method : "GET" })

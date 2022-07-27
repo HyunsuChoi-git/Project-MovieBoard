@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { saveAs } from 'file-saver';
 
-const AddForm = () => {
-
+const AddForm = (props) => {
+    const navigation = useNavigate();
     const [movie, setMovie] = useState({
         title : '',
         director : '',
         genre : '',
         grade : 0,
-        photo : ''
+        photo : '',
     });
-
-
+    const [file, setFile] = useState();
     const handleValueChange = (e) => {
         setMovie({
             ...movie,
             [e.target.name]:e.target.value
         });
-    }   
+    };
+    const handelFileChange = (e) => {
 
+        const filename = moment().format('YYYYMMDDHHmmss') + "_" +e.target.files[0]; 
+
+        setFile(e.target.files[0])    //사용자가 다중 파일을 선택할 때, 첫번째 파일만 가져오기
+        setMovie({...movie, photo: e.target.value});
+    }
     const handleSubmit = (e) => {
-        e.preventDefault(); // submit action을 안타도록 설정
+        e.preventDefault();
+        
+        saveAs(file, movie.photo);   //파일 저장
+
         fetch("http://localhost:8080/movie", {
             method : "POST",
             headers : {
@@ -28,13 +38,25 @@ const AddForm = () => {
             },
             body: JSON.stringify(movie)
         })
-        .then(res=>res.json())
+        .then(res=>{
+            console.log(res);
+            // json 파싱 전, 상태코드 확인하여 res값 초기화
+            if(res.status === 201){
+                return res.json();
+            }else{
+                return null;
+            }
+        })
         .then(res=> {
             console.log(res);
-        }).catch((err) => {
-            alert('등록에 실패하였습니다.');
-        }
-        );
+            // res 값에 따른 결과 처리
+            if(res !== null){
+                navigation('/', {replace : true});
+            }else{
+                alert('등록을 실패하였습니다.');
+            }
+        });
+
     }
 
     return (
@@ -77,14 +99,11 @@ const AddForm = () => {
 
             <Form.Group className="mb-3" controlId="formGridPhoto">
                 <Form.Label>PHOTO</Form.Label>
-                <Form.Control type="file" name="photo" onChange={(e) => handleValueChange(e)}/>
+                <Form.Control type="file" name="photo" onChange={(e) => handelFileChange(e)}/>
             </Form.Group>
 
-{/*             <Form.Group className="mb-3" id="formGridCheckbox">
-                <Form.Check type="checkbox" label="Check me out" />
-            </Form.Group> */}
             <Button variant="primary" type="submit">
-                Submit
+                Save
             </Button>
         </Form>
     );

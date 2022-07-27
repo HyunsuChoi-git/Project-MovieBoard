@@ -56,14 +56,14 @@ public class MemoControllerUnitTest {
 		
 		//1. given (테스트를 위한 준비)
 			// test데이터 준비
-		Movie movie = new Movie(null, "test제목", "test내용","스릴러",3, "");
+		Movie movie = new Movie(null, "test제목", "test내용","스릴러",3, "", "");
 		String content = new ObjectMapper().writeValueAsString(movie);	
 						// 객체를 Json으로 parsing해주는 메소드.
 						// save메소드는 pustMapping방식으로, Json객체를 파라미터로 받기 때문에 test데이터를 json으로 parging하여 준비.
 		
 			// 성공 결과 리턴값 지정해주기  
 			//     ---> 해당 테스트에서 실행될 메소드의 객체 movieService는 모의객체라 메소드 실행 후에 아무런 변화가 없음. 따라서 성공시 결과값을 지정해주는 것.
-		when(movieService.saveMovie(movie)).thenReturn(new Movie(null, "test제목", "test내용","스릴러",3, ""));
+		when(movieService.saveMovie(movie)).thenReturn(new Movie(null, "test제목", "test내용","스릴러",3, "", ""));
 		
 		
 		//3. when (실행)
@@ -88,9 +88,9 @@ public class MemoControllerUnitTest {
 		
 		//given
 		List<Movie> movieList = new ArrayList<>();
-		movieList.add(new Movie(1L,"제목1","제목1","스릴러",3, ""));
-		movieList.add(new Movie(2L,"제목2","제목2","스릴러",3, ""));
-		movieList.add(new Movie(3L,"제목3","제목3","스릴러",3, ""));
+		movieList.add(new Movie(1L,"제목1","제목1","스릴러",3, "", ""));
+		movieList.add(new Movie(2L,"제목2","제목2","스릴러",3, "", ""));
+		movieList.add(new Movie(3L,"제목3","제목3","스릴러",3, "", ""));
 
 		when(movieService.getAllMovies()).thenReturn(movieList);
 		
@@ -113,7 +113,7 @@ public class MemoControllerUnitTest {
 		
 		//given
 		Long id = (long) 1;
-		when(movieService.getMovie(id)).thenReturn(new Movie(1L,"첫번째 게시물","hera","스릴러",3, ""));
+		when(movieService.getMovie(id)).thenReturn(new Movie(1L,"첫번째 게시물","hera","스릴러",3, "", ""));
 		
 		//when
 		ResultActions resultActions = mockMvc.perform(
@@ -136,9 +136,9 @@ public class MemoControllerUnitTest {
 		
 		//given
 		Long id = (long) 1;
-		Movie movie = new Movie(1L,"첫번째 영화","hera","스릴러",3, "");
+		Movie movie = new Movie(1L,"첫번째 영화","hera","스릴러",3, "", "");
 		String content = new ObjectMapper().writeValueAsString(movie);	
-		when(movieService.modifyMovie(id, movie)).thenReturn(new Movie(1L,"첫번째 영화","hera","스릴러",3, ""));
+		when(movieService.modifyMovie(id, movie)).thenReturn(new Movie(1L,"첫번째 영화","hera","스릴러",3, "", ""));
 		
 		//when
 		ResultActions resultActions = mockMvc.perform(

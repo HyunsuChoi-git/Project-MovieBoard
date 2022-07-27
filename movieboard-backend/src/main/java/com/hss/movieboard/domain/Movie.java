@@ -29,5 +29,7 @@ public class Movie {
 	private int grade;
 	
 	private String photo;
+	
+	private String memo;
 
 }
