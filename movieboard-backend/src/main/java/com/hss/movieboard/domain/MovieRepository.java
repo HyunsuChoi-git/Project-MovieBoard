@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 // JpaRepository를 상속받으면 생략가능하다
 // CRUD 함수를 들고 있어서 그걸 사용하면 된다.
 public interface MovieRepository extends JpaRepository<Movie, Long>{
-
+	
+	
+	
 }

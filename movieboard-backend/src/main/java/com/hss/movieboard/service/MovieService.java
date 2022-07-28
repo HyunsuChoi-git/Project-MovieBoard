@@ -1,8 +1,17 @@
 package com.hss.movieboard.service;
 
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.ServletContext;
+
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.hss.movieboard.domain.Movie;
 import com.hss.movieboard.domain.MovieRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +24,17 @@ import lombok.RequiredArgsConstructor;
 public class MovieService {
 	
 	private final MovieRepository movieRepository;
+	private final ServletContext servletContext;
+	
+	private String folderPath = "C:\\Users\\HS\\Desktop\\React workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
+	private String basicFilename = "basic.png";
 	
 	@Transactional   // 서비스 함수가 종료될 때(return될 떄) data를 커밋할 지, 롤백할 지 관리함.
 	public Movie saveMovie(Movie movie) {
 		
+		System.out.println(movie.getPhoto());
 		if(movie.getPhoto() == null) {
-			movie.setPhoto("basic.png");
+			movie.setPhoto(basicFilename);
 		}
 		
 		return movieRepository.save(movie);
@@ -61,9 +75,25 @@ public class MovieService {
 	}
 	
 	@Transactional
-	public String deleteMovie(Long id) {	
+	public String deleteMovie(Long id) {
+
+		Optional<Movie> opMovie = movieRepository.findById(id);
+		Movie movie = opMovie.get();
+		String filename = movie.getPhoto();
+		
+		File file = new File(folderPath + filename);
+		
+		if(file.exists() && !filename.equals(basicFilename)) { // 파일이 존재하면
+			file.delete(); // 파일 삭제	
+		}
+		
 		movieRepository.deleteById(id); //오류가 나면 알아서 exception을 타므로 따로 exception처리 해줄 필요 X
 		return "ok";
+	}
+
+
+	public void savePhoto(MultipartFile file, String filename) throws IllegalStateException, IOException {
+		file.transferTo(new File(folderPath+filename));
 	}
 	
 	

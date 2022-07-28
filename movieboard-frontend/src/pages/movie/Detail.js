@@ -57,7 +57,6 @@ const Detail = (props) => {
         grade: 0,
         photo: '',
         memo: ''
-
     });
 
     useEffect(() => {

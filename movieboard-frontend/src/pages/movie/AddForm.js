@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, ButtonGroup, Form, ToggleButton } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { saveAs } from 'file-saver';
+import { post } from 'axios';
 
 const AddForm = (props) => {
     const navigation = useNavigate();
@@ -13,7 +13,23 @@ const AddForm = (props) => {
         photo : '',
     });
     const [file, setFile] = useState();
+  
+    const radios = [
+      { name: '0', value: 0 },
+      { name: '1', value: 1 },
+      { name: '2', value: 2 },
+      { name: '3', value: 3 },
+      { name: '4', value: 4 },
+      { name: '5', value: 5 },
+      { name: '6', value: 6 },
+      { name: '7', value: 7 },
+      { name: '8', value: 8 },
+      { name: '9', value: 9 },
+      { name: '10', value: 10 }
+    ];
+
     const handleValueChange = (e) => {
+        console.log(e.target.name, e.target.value);
         setMovie({
             ...movie,
             [e.target.name]:e.target.value
@@ -21,40 +37,45 @@ const AddForm = (props) => {
     };
     const handelFileChange = (e) => {
 
-        const filename = moment().format('YYYYMMDDHHmmss') + "_" +e.target.files[0]; 
-
         setFile(e.target.files[0])    //사용자가 다중 파일을 선택할 때, 첫번째 파일만 가져오기
         setMovie({...movie, photo: e.target.value});
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        saveAs(file, movie.photo);   //파일 저장
 
-        fetch("http://localhost:8080/movie", {
-            method : "POST",
-            headers : {
-                "Content-Type":"application/json; charset=utf-8"
-            },
-            body: JSON.stringify(movie)
-        })
-        .then(res=>{
-            console.log(res);
-            // json 파싱 전, 상태코드 확인하여 res값 초기화
-            if(res.status === 201){
-                return res.json();
-            }else{
-                return null;
+        const formData = new FormData();
+        let url = '';
+        let config = {};
+
+        formData.append('movie', new Blob([JSON.stringify(movie)], {
+            type: "application/json"
+        }));
+
+        if(file !== undefined) {
+            url = 'http://localhost:8080/movieplus';
+            formData.append('file', file);
+            config = {
+                headers: {
+                    "Contest-Type": "multipart/form-data"
+                }
             }
-        })
-        .then(res=> {
+        }else{
+            url = 'http://localhost:8080/movie';
+        }
+
+        console.log(url);
+
+        post(url, formData, config
+        ).then(res => {
             console.log(res);
-            // res 값에 따른 결과 처리
-            if(res !== null){
+            if(res.status === 201){
+                alert('등록되었습니다.');
                 navigation('/', {replace : true});
             }else{
-                alert('등록을 실패하였습니다.');
+                alert('실패하였습니다.');
             }
+        }).catch(err => {
+            alert('오류가 발생하였습니다.');
         });
 
     }
@@ -94,7 +115,24 @@ const AddForm = (props) => {
 
             <Form.Group className="mb-3" controlId="formGridGrade">
                 <Form.Label>GRADE</Form.Label>
-                <Form.Control type="text" placeholder="1 ~ 10" name="grade" onChange={(e) => handleValueChange(e)}/>
+                <br/>
+                <ButtonGroup>
+                    {radios.map((radio, idx) => (
+                        <ToggleButton
+                            key={idx}
+                            id={`radio-${idx}`}
+                            type="radio"
+                            variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                            name="grade"
+                            value={radio.value}
+                            checked={movie.grade === radio.value}
+                            onChange={(e) => handleValueChange(e)}
+                        >
+                            {radio.name}
+                        </ToggleButton>
+                    ))}
+                </ButtonGroup>        
+                {/* <Form.Control type="text" placeholder="1 ~ 10" name="grade" onChange={(e) => handleValueChange(e)}/> */}
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formGridPhoto">

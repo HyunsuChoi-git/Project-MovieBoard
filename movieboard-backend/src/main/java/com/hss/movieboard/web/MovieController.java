@@ -1,5 +1,7 @@
 package com.hss.movieboard.web;
 
+import java.io.IOException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hss.movieboard.domain.Movie;
 import com.hss.movieboard.service.MovieService;
@@ -26,7 +30,23 @@ public class MovieController {
 	
 
 	@PostMapping("/movie")
-	public ResponseEntity<?> save(@RequestBody Movie movie){
+	public ResponseEntity<?> savetest(@RequestPart("movie") Movie movie){
+		return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED); //200
+	}
+	
+	@PostMapping("/movieplus")
+	public ResponseEntity<?> save(@RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
+		
+		if(file != null) {
+			String orgName = file.getOriginalFilename();
+			String imgName = orgName.substring(0, orgName.lastIndexOf('.'));
+			String ext = orgName.substring(orgName.lastIndexOf('.'));
+			long date = System.currentTimeMillis();
+			String filename = date+"_"+imgName + ext;
+
+			movie.setPhoto(filename);
+			movieService.savePhoto(file, filename);
+		}
 		return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED); //200
 	}
 	
