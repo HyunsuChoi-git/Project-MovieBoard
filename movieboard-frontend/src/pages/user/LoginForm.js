@@ -61,6 +61,7 @@ const LoginForm = () => {
                 <Form.Label>비밀번호</Form.Label>
                 <Form.Control type="password" name="pw" placeholder="Password" onChange={handleValue}/>
                 </Form.Group>
+                <br/>
                 <Button variant="primary" type="submit">Enter</Button>
             </Form>
         </StyledContainer>
