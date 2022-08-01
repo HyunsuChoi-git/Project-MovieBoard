@@ -28,16 +28,19 @@ public class UsersService {
 	@Transactional	// 로그인체크
 	public String checkLogin(String email, String pw) {
 
-		Users userEntity = usersRepository.findByEmail(email)
-				.orElseThrow(() -> new IllegalArgumentException("아이디와 패스워드를 확인하세요."));
+		Users userEntity = usersRepository.findById(email)
+				.orElseThrow(() -> new IllegalArgumentException("이메일과 패스워드를 확인하세요."));
+		
+		if(userEntity.getPw() != pw) {
+			new IllegalArgumentException("이메일과 패스워드를 확인하세요.");
+		}
 		
 		return "ok";
-    
 	}
 	
 	@Transactional	// 회원정보 수정
 	public Users updateUser(Users user, String email) {
-		Users userEntity = usersRepository.findByEmail(email)
+		Users userEntity = usersRepository.findById(email)
 				.orElseThrow(() -> new IllegalArgumentException("이메일을 확인하세요."));
 		userEntity.setPw(user.getPw());
 		

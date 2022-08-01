@@ -30,12 +30,12 @@ public class MovieController {
 	
 
 	@PostMapping("/movie")
-	public ResponseEntity<?> savetest(@RequestPart("movie") Movie movie){
+	public ResponseEntity<?> save(@RequestPart("movie") Movie movie){
 		return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED); //200
 	}
 	
 	@PostMapping("/movieplus")
-	public ResponseEntity<?> save(@RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
+	public ResponseEntity<?> saveWithPhotp(@RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
 		
 		if(file != null) {
 			String orgName = file.getOriginalFilename();

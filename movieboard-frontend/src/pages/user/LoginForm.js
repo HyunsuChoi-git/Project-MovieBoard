@@ -42,6 +42,7 @@ const LoginForm = () => {
             ).then(res => {
                 navigation('/');
             }).catch(err => {
+                //console.log(err.response.data.message); --> 서버단 에러메세지 출력~
                 alert('이메일과 패스워드를 확인하세요.');
             });
 

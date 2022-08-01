@@ -56,7 +56,7 @@ const JoinForm = () => {
             formData.append('user', new Blob([JSON.stringify(user)], {
                 type: "application/json"
             }));
-            post("http://localhost:8080/join", formData, {}
+            post("http://localhost:8080/user", formData, {}
                 ).then(res => {
                     alert('회원가입이 완료되었습니다.');
                     navigation('/');

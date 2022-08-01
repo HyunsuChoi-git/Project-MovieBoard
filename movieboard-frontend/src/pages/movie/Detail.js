@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Card, Col, Container, Modal, Row } from 'react-bootstrap';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Card} from 'react-bootstrap';
 import styled from "styled-components";
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalf } from "@fortawesome/free-solid-svg-icons";
 import UpdateForm from './UpdateForm';
-import CommentForm from './CommentForm';
+
 import Delete from './Delete';
+import CommentForm from '../comment/CommentForm';
 
 const StyledContainerCard = styled(Card)`
     margin: auto;
@@ -61,10 +62,17 @@ const Detail = (props) => {
 
     useEffect(() => {
         fetch("http://localhost:8080/movie/"+id, { method : "GET" })
-            .then( res => res.json() )
+            .then( res => res.json(), {
+                suspense: true,
+              })
             .then( res => {
                 setMovie(res);
             });
+        fetch("http://localhost:8080/comment/"+id+"&"+movie.title, { method : "GET" })
+        .then( res => res.json() )
+        .then( res => {
+            console.log(res);
+        });
     }, []);
 
     return (
@@ -89,11 +97,13 @@ const Detail = (props) => {
                     </Card.Body>                    
                 </StyledContentCard>
             </StyledCardBody_1>
-
+            
             <StyledCardBody_2>
+            <Suspense>
                 <Delete id={id} title={movie.title}/>
-                <CommentForm id={id}/>
+                <CommentForm movie={movie}/>
                 <UpdateForm movie={movie}/>
+            </Suspense>
             </StyledCardBody_2>
         </StyledContainerCard>      
 
@@ -101,6 +111,3 @@ const Detail = (props) => {
 };
 
 export default Detail;
-
-
-///<StyledButton variant="danger" onClick={''}>delete</StyledButton>

@@ -34,9 +34,7 @@ const MydModalWithGrid = (props) => {
         });
     };   
     const handleSubmit = (e) => {
-        console.log(1, movie);
-
-        e.preventDefault(); // submit action을 안타도록 설정
+        e.preventDefault();
         fetch("http://localhost:8080/movie/"+movie.id, {
             method : "PUT",
             headers : {
@@ -73,7 +71,7 @@ const MydModalWithGrid = (props) => {
                 수정하기
                 </Modal.Title>
             </Modal.Header>
-            <Form onSubmit={(e) => handleSubmit(e)}>
+            <Form onSubmit={handleSubmit}>
                 <Modal.Body className="show-grid">
                 
                     <Form.Group className="mb-3" controlId="formGridTitle">
