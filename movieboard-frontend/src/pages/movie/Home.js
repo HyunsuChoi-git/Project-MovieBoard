@@ -18,7 +18,6 @@ const Home = () => {
         fetch('http://localhost:8080/movie', {  method : "GET" })
             .then(res=>res.json())
             .then(res=>{
-                console.log(1, res);
                 setMovies(res);
             });              
     }, []);

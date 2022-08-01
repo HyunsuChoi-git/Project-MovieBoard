@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Card} from 'react-bootstrap';
 import styled from "styled-components";
 import { useParams } from 'react-router-dom';
@@ -31,9 +31,15 @@ const StyledCardTitle = styled(Card.Title)`
 `;
 const StyledCardText = styled(Card.Text)`
     margin-bottom : 0;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
     max-height: 400px;
     overflow: auto;
+`;
+const StyledComment = styled(StyledCardText)`
+    padding: 10px;
+    font-size: 13px;
+    font-weight: lighter;
 `;
 const StyledCardBody_2 = styled(Card.Body)`
     position: relative;
@@ -60,7 +66,11 @@ const Detail = (props) => {
         memo: ''
     });
 
+    const [ liComments, setLiComment ] = useState([]);
+
     useEffect(() => {
+        console.log('zzzzz');
+        // 영화정보
         fetch("http://localhost:8080/movie/"+id, { method : "GET" })
             .then( res => res.json(), {
                 suspense: true,
@@ -68,12 +78,19 @@ const Detail = (props) => {
             .then( res => {
                 setMovie(res);
             });
+    }, [propsParam.id]);
+    
+    // 영화정보 렌더링이 완료되면 감상평 가져오기
+    const getComments = useMemo(() => {
+        // 감상평
         fetch("http://localhost:8080/comment/"+id+"&"+movie.title, { method : "GET" })
         .then( res => res.json() )
         .then( res => {
-            console.log(res);
+            console.log('감상평List - ',res);
+            setLiComment(res);
         });
-    }, []);
+    }, [movie]);
+
 
     return (
         <StyledContainerCard style={{ width: '45rem'}}>
@@ -93,16 +110,25 @@ const Detail = (props) => {
                         </StyledCardText>
                         <StyledCardText><br/></StyledCardText>
                         <StyledCardText>감상평 : </StyledCardText>
-                        <StyledCardText>{movie.memo}</StyledCardText>
+                        <StyledComment>{
+                            liComments.map((comment, index) => {
+                                return (
+                                    <p key={index}>{comment.content} ({comment.email.substring(0,5)}...)</p>
+                                )
+                            })
+                            
+                            }</StyledComment>
                     </Card.Body>                    
                 </StyledContentCard>
             </StyledCardBody_1>
             
             <StyledCardBody_2>
             <Suspense>
+                {/* 관리자 */}
                 <Delete id={id} title={movie.title}/>
-                <CommentForm movie={movie}/>
                 <UpdateForm movie={movie}/>
+                {/* 회원 */}
+                <CommentForm movie={movie}/>
             </Suspense>
             </StyledCardBody_2>
         </StyledContainerCard>      

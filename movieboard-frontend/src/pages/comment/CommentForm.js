@@ -15,17 +15,20 @@ const StyledButton = styled(Button)`  // 버튼
 `;
 
 const MydModalWithGrid = (props) => {
-
+    const navigation = useNavigate();
     const {movie} = props;
     const [comment, setComment] = useState({
-        titleId : '',
+        titleId : 0,
         title : '',
         email : '',
         content : '',
     });
 
+    useEffect(()=> {
+        setComment({...comment, titleId : movie.id, title : movie.title});
+    }, [movie])
+
     const handleValueChange = (e) => {
-        console.log(1, movie);
         setComment({...comment, content : e.target.value});
     }
 
@@ -34,7 +37,6 @@ const MydModalWithGrid = (props) => {
         if(comment === ''){
             alert('감상평을 입력하세요.');
         }else{
-            console.log(2, movie);
             setComment({...comment, titleId : movie.id, title : movie.title});
             console.log(3, comment);
 
