@@ -39,7 +39,7 @@ public class CommentController {
 	public ResponseEntity<?> deleteComment(@PathVariable Long id) {
 		return new ResponseEntity<>(commentService.deleteComment(id), HttpStatus.OK);
 	}
-	
+	@CrossOrigin
 	@PutMapping("/comment/{id}")	//코멘트 수정
 	public ResponseEntity<?> updateComment(@RequestPart("comment") Comment comment) {	
 		return new ResponseEntity<>(commentService.updateComment(comment), HttpStatus.OK);
@@ -47,7 +47,6 @@ public class CommentController {
 	
 	@GetMapping("/comment/{titleId}&{title}")	// 영화별 코멘트 추출
 	public List<Comment> getMovieComments(@PathVariable Long titleId, @PathVariable String title ) {
-		System.out.println(titleId);
 		return commentService.getMovieComments(titleId, title);
 	}
 	

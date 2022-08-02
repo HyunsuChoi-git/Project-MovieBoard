@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { put } from 'axios';
 import styled from "styled-components";
 
 const StyledButton = styled(Button)`  // 버튼
@@ -15,6 +16,8 @@ const StyledButton = styled(Button)`  // 버튼
 
 const MydModalWithGrid = (props) => {
 
+    const {updateTogle, setUpdateTogle} = props;
+
     const [movie, setMovie] = useState({
         id : '',
         title : '',
@@ -23,6 +26,8 @@ const MydModalWithGrid = (props) => {
         grade : 0,
         photo : ''
     });
+    const [file, setFile] = useState();
+
     useEffect(() => {
         setMovie(props.movie);
     },[props.movie]);
@@ -33,33 +38,44 @@ const MydModalWithGrid = (props) => {
             [e.target.name]:e.target.value
         });
     };   
+    const handelFileChange = (e) => {
+        setFile(e.target.files[0])  
+        setMovie({...movie, photo: e.target.value});
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch("http://localhost:8080/movie/"+movie.id, {
-            method : "PUT",
-            headers : {
-                "Content-Type":"application/json; charset=utf-8"
-            },
-            body: JSON.stringify(movie)
-        })
+
+        const formData = new FormData();
+        let url = '';
+        let config = {};
+
+        formData.append('movie', new Blob([JSON.stringify(movie)], {
+            type: "application/json"
+        }));
+
+        if(file !== undefined) {
+            url = 'http://localhost:8080/movieplus/'+movie.id;
+            formData.append('file', file);
+            config = {
+                headers: {
+                    "Contest-Type": "multipart/form-data"
+                }
+            }
+        }else{
+            url = 'http://localhost:8080/movie/'+movie.id;
+        }
+
+        put(url, formData, config)
         .then(res=>{
-            console.log(res);
-            // json 파싱 전, 상태코드 확인하여 res값 초기화
-            if(res.status === 200){
-                return res.json();
+            alert('수정을 완료하였습니다.');
+            props.onHide();
+            if(updateTogle === false){
+                setUpdateTogle(true);
             }else{
-                return null;
+                setUpdateTogle(false);
             }
-        })
-        .then(res=> {
-            console.log(res);
-            // res 값에 따른 결과 처리
-            if(res !== null){
-                alert('수정을 완료하였습니다.');
-                
-            }else{
-                alert('수정을 실패하였습니다.');
-            }
+        }).catch(err => {
+            alert('오류가 발생하였습니다.');
         });
 
     }
@@ -106,12 +122,12 @@ const MydModalWithGrid = (props) => {
 
                     <Form.Group className="mb-3" controlId="formGridGrade">
                         <Form.Label>GRADE</Form.Label>
-                        <Form.Control type="text" value={movie.grade} name="grade" onChange={(e) => handleValueChange(e)}/>
+                        <Form.Control type="text" value={movie.grade} name="grade" onChange={handleValueChange}/>
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formGridPhoto">
                         <Form.Label>PHOTO</Form.Label>
-                        <Form.Control type="file" name="photo" onChange={(e) => handleValueChange(e)}/>
+                        <Form.Control type="file" name="photo" onChange={handelFileChange}/>
                     </Form.Group>
 
                     <Modal.Footer>
@@ -126,13 +142,13 @@ const MydModalWithGrid = (props) => {
 };
 
 const UpdateForm = (props) => {
-
+    const {updateTogle, setUpdateTogle} = props;
     const [modalShow, setModalShow] = useState(false);
 
     return (
         <div>
             <StyledButton variant="primary" name={'update'} onClick={() => setModalShow(true)}>update</StyledButton>
-            <MydModalWithGrid show={modalShow} movie={props.movie} onHide={() => setModalShow(false)} /> 
+            <MydModalWithGrid show={modalShow} movie={props.movie} updateTogle={updateTogle} setUpdateTogle={setUpdateTogle} onHide={() => setModalShow(false)} /> 
         </div>
     );
 };

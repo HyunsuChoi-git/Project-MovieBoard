@@ -35,7 +35,7 @@ public class MovieController {
 	}
 	
 	@PostMapping("/movieplus")
-	public ResponseEntity<?> saveWithPhotp(@RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
+	public ResponseEntity<?> saveWithPhoto(@RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
 		
 		if(file != null) {
 			String orgName = file.getOriginalFilename();
@@ -63,7 +63,26 @@ public class MovieController {
 	}
 	
 	@PutMapping("/movie/{id}")
-	public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Movie movie){
+	public ResponseEntity<?> update(@PathVariable Long id, @RequestPart("movie") Movie movie){
+		return new ResponseEntity<>(movieService.modifyMovie(id, movie), HttpStatus.OK); //200
+	}
+
+	@PutMapping("/movieplus/{id}")
+	public ResponseEntity<?> updateWithPhoto(@PathVariable Long id, @RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
+		
+		if(file != null) {
+			String orgName = file.getOriginalFilename();
+			String imgName = orgName.substring(0, orgName.lastIndexOf('.'));
+			String ext = orgName.substring(orgName.lastIndexOf('.'));
+			long date = System.currentTimeMillis();
+			String filename = date+"_"+imgName + ext;
+			
+			movie.setPhoto(filename);
+			//새 포토 저장 및 기존 포토 삭제
+			movieService.savePhoto(file, filename);
+			movieService.deletePhoto(id);
+		}
+		
 		return new ResponseEntity<>(movieService.modifyMovie(id, movie), HttpStatus.OK); //200
 	}
 	

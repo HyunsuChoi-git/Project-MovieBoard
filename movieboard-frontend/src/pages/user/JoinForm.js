@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const StyledContainer = styled.div`
     margin: auto;
     margin-top: 3em;
+    margin-bottom: 3em;
     max-width: 20em;
 `;
 const StyledH2 = styled.h2`

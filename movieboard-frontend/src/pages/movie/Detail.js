@@ -7,13 +7,15 @@ import { faStar, faStarHalf } from "@fortawesome/free-solid-svg-icons";
 import UpdateForm from './UpdateForm';
 
 import Delete from './Delete';
-import CommentForm from '../comment/CommentForm';
+import CommentForm from '../comment/AddCommentForm';
+import DeleteComment from '../comment/DeleteComment';
+import UpdateCommentForm from '../comment/UpdateCommentForm';
 
-const StyledContainerCard = styled(Card)`
+const StyledContainerCard = styled(Card)`   //전체 컨테이너
     margin: auto;
-    margin-top: 1em;            // Header와 Container 간격
+    margin-top: 3em;            
 `;
-const StyledCardBody_1 = styled(Card.Body)`
+const StyledCardBody_1 = styled(Card.Body)` // 이미지,영화정보 칸
     padding: 0;
     display:flex; 
     align-items: flex-start;
@@ -23,25 +25,25 @@ const StyledImgCard = styled(Card.Body)` // 이미지
     width: 35%;
     padding: 0px;
 `;
-const StyledContentCard = styled(Card.Body)`   // 내용
+const StyledContentCard = styled(Card.Body)`   // 영화정보
     width: 65%;
 `;
-const StyledCardTitle = styled(Card.Title)`
+const StyledCardTitle = styled(Card.Title)` // 영화제목 text
     font-weight: bold;
 `;
-const StyledCardText = styled(Card.Text)`
+const StyledCardText = styled(Card.Text)`   // 영화정보 text
     margin-bottom : 0;
     font-size: 16px;
     font-weight: bold;
     max-height: 400px;
     overflow: auto;
 `;
-const StyledComment = styled(StyledCardText)`
+const StyledComment = styled(StyledCardText)`   // 감상평
     padding: 10px;
     font-size: 13px;
     font-weight: lighter;
 `;
-const StyledCardBody_2 = styled(Card.Body)`
+const StyledCardBody_2 = styled(Card.Body)` // 버튼 칸
     position: relative;
     bottom:   0;
     float: right;
@@ -55,6 +57,9 @@ const Detail = (props) => {
     const id =  propsParam.id;
 
     const src = process.env.PUBLIC_URL+"/image/";
+
+    const [updateTogle, setUpdateTogle] = useState(false);
+    const [commentTogle, setCommentTogle] = useState(false);
 
     const [ movie, setMovie ] = useState({
         id: '',
@@ -78,7 +83,7 @@ const Detail = (props) => {
             .then( res => {
                 setMovie(res);
             });
-    }, [propsParam.id]);
+    }, [updateTogle]);
     
     // 영화정보 렌더링이 완료되면 감상평 가져오기
     const getComments = useMemo(() => {
@@ -86,10 +91,9 @@ const Detail = (props) => {
         fetch("http://localhost:8080/comment/"+id+"&"+movie.title, { method : "GET" })
         .then( res => res.json() )
         .then( res => {
-            console.log('감상평List - ',res);
             setLiComment(res);
         });
-    }, [movie]);
+    }, [movie, commentTogle]);
 
 
     return (
@@ -113,7 +117,10 @@ const Detail = (props) => {
                         <StyledComment>{
                             liComments.map((comment, index) => {
                                 return (
-                                    <p key={index}>{comment.content} ({comment.email.substring(0,5)}...)</p>
+                                    <p key={index}>{comment.content} ({comment.email.substring(0,5)}...)
+                                    <DeleteComment id={comment.id} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>
+                                    <UpdateCommentForm comment={comment} commentTogle={commentTogle} setCommentTogle={setCommentTogle} />
+                                    </p>
                                 )
                             })
                             
@@ -123,13 +130,11 @@ const Detail = (props) => {
             </StyledCardBody_1>
             
             <StyledCardBody_2>
-            <Suspense>
-                {/* 관리자 */}
                 <Delete id={id} title={movie.title}/>
-                <UpdateForm movie={movie}/>
+                {/* 관리자 */}
+                <UpdateForm movie={movie} updateTogle={updateTogle} setUpdateTogle={setUpdateTogle}/>
                 {/* 회원 */}
-                <CommentForm movie={movie}/>
-            </Suspense>
+                <CommentForm movie={movie} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>
             </StyledCardBody_2>
         </StyledContainerCard>      
 

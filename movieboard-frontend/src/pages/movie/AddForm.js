@@ -6,7 +6,8 @@ import styled from 'styled-components';
 
 const StyledContainer = styled.div`
     margin: auto;
-    margin-top: 5em;
+    margin-top: 3em;
+    margin-bottom: 3em;
     max-width: 25em;
 `;
 
@@ -42,14 +43,12 @@ const AddForm = (props) => {
     ];
 
     const handleValueChange = (e) => {
-        console.log(e.target.name, e.target.value);
         setMovie({
             ...movie,
             [e.target.name]:e.target.value
         });
     };
     const handelFileChange = (e) => {
-
         setFile(e.target.files[0])    //사용자가 다중 파일을 선택할 때, 첫번째 파일만 가져오기
         setMovie({...movie, photo: e.target.value});
     }
@@ -75,8 +74,6 @@ const AddForm = (props) => {
         }else{
             url = 'http://localhost:8080/movie';
         }
-
-        console.log(url);
 
         post(url, formData, config
         ).then(res => {

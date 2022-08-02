@@ -26,14 +26,13 @@ public class MovieService {
 	
 	private final MovieRepository movieRepository;
 	
-//	private String folderPath = "C:\\Users\\HS\\Desktop\\React workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
-	private String folderPath = "C:\\Users\\kim\\Desktop\\workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
+	private String folderPath = "C:\\Users\\HS\\Desktop\\React workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
+//	private String folderPath = "C:\\Users\\kim\\Desktop\\workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
 	private String basicFilename = "basic.png";
 	
 	@Transactional   // 서비스 함수가 종료될 때(return될 떄) data를 커밋할 지, 롤백할 지 관리함.
 	public Movie saveMovie(Movie movie) {
-		
-		System.out.println(movie.getPhoto());
+
 		if(movie.getPhoto() == null) {
 			movie.setPhoto(basicFilename);
 		}
@@ -69,6 +68,11 @@ public class MovieService {
 		//2. 영속화된 데이터를 받아서 수정하기
 		movieEntity.setTitle(movie.getTitle());
 		movieEntity.setDirector(movie.getDirector());
+		movieEntity.setGenre(movie.getGenre());
+		movieEntity.setGrade(movie.getGrade());
+		if(movie.getPhoto() != null) {
+			movieEntity.setPhoto(movie.getPhoto());
+		}
 		//3. 수정된 데이터 리턴하기
 		return movieEntity;
 		//4. 함수 종료시 => 트랜젝션 종료 => 영속화 되어있는 데이터를 DB에 갱신(flush) => commit  
@@ -78,16 +82,8 @@ public class MovieService {
 	@Transactional
 	public String deleteMovie(Long id) {
 
-		Optional<Movie> opMovie = movieRepository.findById(id);
-		Movie movie = opMovie.get();
-		String filename = movie.getPhoto();
-		
-		File file = new File(folderPath + filename);
-		
-		if(file.exists() && !filename.equals(basicFilename)) { // 파일이 존재하면
-			file.delete(); // 파일 삭제	
-		}
-		
+		deletePhoto(id);
+
 		movieRepository.deleteById(id); //오류가 나면 알아서 exception을 타므로 따로 exception처리 해줄 필요 X
 		return "ok";
 	}
@@ -98,5 +94,15 @@ public class MovieService {
 	}
 	
 	
+	public void deletePhoto(Long id) {
+		Optional<Movie> opMovie = movieRepository.findById(id);
+		Movie movie = opMovie.get();
+		String filename = movie.getPhoto();
+		File file = new File(folderPath + filename);
+		
+		if(file.exists() && !filename.equals(basicFilename)) { // 파일이 존재하면
+			file.delete(); // 파일 삭제	
+		}
+	}
 
 }
