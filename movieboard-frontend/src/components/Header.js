@@ -39,7 +39,9 @@ const Header = (props) => {
                 <Nav className="me-auto">
                     <Link to='/loginForm' className='nav-link'>LOGIN</Link>
                     <Link to='/joinForm' className='nav-link'>JOIN</Link>
+                    <Nav.Link>LOGOUT</Nav.Link>
                     <Link to='/addForm' className='nav-link'>ADD</Link>
+                    
                 </Nav>
                 <Form className="d-flex" onSubmit={handleSubmit}>
                     <Form.Control
