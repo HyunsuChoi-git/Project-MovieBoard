@@ -67,7 +67,6 @@
 		    <artifactId>mysql-connector-java</artifactId>
 		    <version>8.0.29</version>
 		</dependency>
-		    
 	    
 	    <!-- Spring Security 사용을 위한 dependency 등록 Start -->
 	    <dependency>
@@ -88,8 +87,8 @@
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-web</artifactId>
 		    <version>5.7.2</version>
+		    <!-- jwt토큰을 인코딩해서 암호화해주는 라이브러리 -->
 		</dependency>
-			<!-- jwt토큰을 인코딩해서 암호화해주는 라이브러리 -->
 		<dependency>
 		    <groupId>com.auth0</groupId>
 		    <artifactId>java-jwt</artifactId>
@@ -97,12 +96,7 @@
 		</dependency>
 				
 		<!-- Spring Security 사용을 위한 dependency 등록 End -->
-		
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-tomcat</artifactId>
-		</dependency>
- 	
+
 	</dependencies>
 
 
