@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hss.movieboard.domain.Movie;
+import com.hss.movieboard.domain.dto.Movie;
 import com.hss.movieboard.service.MovieService;
 
 import lombok.extern.slf4j.Slf4j;

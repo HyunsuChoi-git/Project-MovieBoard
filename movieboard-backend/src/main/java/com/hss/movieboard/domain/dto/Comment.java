@@ -1,4 +1,4 @@
-package com.hss.movieboard.domain;
+package com.hss.movieboard.domain.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -9,8 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.hss.movieboard.domain.Movie;
 import com.hss.movieboard.domain.MovieRepository;
+import com.hss.movieboard.domain.dto.Movie;
 
 import lombok.extern.slf4j.Slf4j;
 

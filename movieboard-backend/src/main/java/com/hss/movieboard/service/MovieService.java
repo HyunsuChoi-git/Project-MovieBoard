@@ -13,8 +13,9 @@ import javax.servlet.ServletContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hss.movieboard.domain.Movie;
 import com.hss.movieboard.domain.MovieRepository;
+import com.hss.movieboard.domain.dto.Movie;
+
 import lombok.RequiredArgsConstructor;
 
 

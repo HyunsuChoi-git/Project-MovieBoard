@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hss.movieboard.domain.Movie;
+import com.hss.movieboard.domain.dto.Movie;
 import com.hss.movieboard.service.MovieService;
 
 import lombok.RequiredArgsConstructor;

@@ -7,8 +7,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.hss.movieboard.domain.Users;
 import com.hss.movieboard.domain.UsersRepository;
+import com.hss.movieboard.domain.dto.Users;
+import com.hss.movieboard.domain.type.RoleLevel;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +21,15 @@ public class UsersService {
 	
 	@Transactional // 회원가입
 	public String saveUser(Users user) {
+		
+		Users userEntity = Users.builder()
+				.email(user.getEmail())
+				.pw(user.getPw())
+				.gender(user.getGender())
+				.birth(user.getBirth())
+				.roles(RoleLevel.ROLE_USER)
+				.build();
+		
 		usersRepository.save(user);
 		
 		return user.getEmail();
@@ -27,6 +37,7 @@ public class UsersService {
 	
 	@Transactional	// 로그인체크
 	public String checkLogin(String email, String pw) {
+		System.out.println(" - 로그인 체크");
 
 		Users userEntity = usersRepository.findById(email)
 				.orElseThrow(() -> new IllegalArgumentException("이메일과 패스워드를 확인하세요."));

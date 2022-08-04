@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hss.movieboard.domain.Comment;
+import com.hss.movieboard.domain.dto.Comment;
 import com.hss.movieboard.service.CommentService;
 
 import lombok.RequiredArgsConstructor;

@@ -7,9 +7,9 @@ import java.util.Optional;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import com.hss.movieboard.domain.Comment;
 import com.hss.movieboard.domain.CommentRepository;
-import com.hss.movieboard.domain.Users;
+import com.hss.movieboard.domain.dto.Comment;
+import com.hss.movieboard.domain.dto.Users;
 
 import lombok.RequiredArgsConstructor;
 

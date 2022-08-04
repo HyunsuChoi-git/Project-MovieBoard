@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.hss.movieboard.domain.dto.Comment;
+
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 	
 	// ID값 제외한 정보로 데이터 추출

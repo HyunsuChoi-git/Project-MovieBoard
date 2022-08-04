@@ -2,7 +2,9 @@ package com.hss.movieboard.config;
 
 import org.springframework.web.filter.CorsFilter;
 
-import com.hss.movieboard.filter.MyFilter3;
+import com.hss.movieboard.config.filter.MyFilter3;
+import com.hss.movieboard.config.jwt.JwtAuthenticationFilter;
+import com.hss.movieboard.domain.type.RoleLevel;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,7 +21,9 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+
 	private final CorsFilter corsFilter;
+
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -31,14 +35,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.addFilter(corsFilter)			// 모든 요청이 이 filter를 탐. cors요청 모두 허용
 		.formLogin().disable()			// form을 사용한 로그인방식을 쓰지 않는다.
 		.httpBasic().disable()			// 기본적인 http방식을 쓰지 않는다.
+		.addFilter(new JwtAuthenticationFilter(authenticationManager()))     // /login 으로 들어오는 로그임Form을 받기 위해서. 
 		.authorizeRequests()			// 여기까지 jwt 기본 세팅
 		.antMatchers("/api/v1/user/**")
-		.access("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+		.access(String.format("hasRole('%s') or hasRole('%s') or hasRole('%s')", RoleLevel.ROLE_USER, RoleLevel.ROLE_MANAGER, RoleLevel.ROLE_ADMIN))
 		.antMatchers("/api/v1/manager/**")
-		.access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
+		.access(String.format("hasRole('%s') or hasRole('%s')", RoleLevel.ROLE_MANAGER, RoleLevel.ROLE_ADMIN))
 		.antMatchers("/api/v1/admin/**")
-		.access("hasRole('ROLE_ADMIN')")
-		.anyRequest().permitAll();
+		.access(String.format("hasRole('%s')", RoleLevel.ROLE_ADMIN))
+		.anyRequest().permitAll()
+		;
 	}
 
 	

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hss.movieboard.domain.Users;
+import com.hss.movieboard.domain.dto.Users;
 import com.hss.movieboard.service.MovieService;
 import com.hss.movieboard.service.UsersService;
 
@@ -31,13 +31,13 @@ public class UsersController {
 		return new ResponseEntity<>(usersService.getAllUsers(), HttpStatus.OK); //200
 	}
 	
-	@PostMapping("/login")	// 로그인 체크
-	public ResponseEntity<?> checkLogin(String email, String pw ) {
-		
-		usersService.checkLogin(email, pw);
-		
-		return  new ResponseEntity<>("ok", HttpStatus.OK);
-	}	
+//	@PostMapping("/login")	// 로그인 체크
+//	public ResponseEntity<?> checkLogin(String email, String pw ) {
+//		
+//		usersService.checkLogin(email, pw);
+//		
+//		return  new ResponseEntity<>("ok", HttpStatus.OK);
+//	}	
 	
 	@PostMapping("/user")	//회원가입
 	public ResponseEntity<?> saveUser(@RequestPart("user") Users user) {

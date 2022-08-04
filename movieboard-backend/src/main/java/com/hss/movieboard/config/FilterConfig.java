@@ -4,8 +4,8 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.hss.movieboard.filter.MyFilter1;
-import com.hss.movieboard.filter.MyFilter2;
+import com.hss.movieboard.config.filter.MyFilter1;
+import com.hss.movieboard.config.filter.MyFilter2;
 
 @Configuration
 public class FilterConfig {
