@@ -5,6 +5,7 @@ import AddForm from "./pages/movie/AddForm";
 import Detail from "./pages/movie/Detail";
 import LoginForm from "./pages/user/LoginForm";
 import JoinForm from "./pages/user/JoinForm";
+import Logout from "./pages/user/Logout";
 import UpdateForm from "./pages/movie/UpdateForm";
 import Home from "./pages/movie/Home";
 import { useState } from "react";
@@ -24,6 +25,7 @@ function App() {
           <Route path='/loginForm' exact={true} element={<LoginForm/>}/>
           <Route path='/joinForm' exact={true} element={<JoinForm />}/>
           <Route path='/updateForm' exact={true} element={<UpdateForm />}/>
+          <Route path='/logout' exact={true} element={<Logout />} />
         </Routes>
       </Container>
     </div>

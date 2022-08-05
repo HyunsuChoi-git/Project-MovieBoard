@@ -25,7 +25,7 @@ const Delete = (props) => {
     const hadleDelete = (e) => {
 
         fetch(
-            'http://localhost:8080/movie/'+id, { method: "DELETE" })
+            'http://localhost:8080/manager/movie/'+id, { method: "DELETE" })
             .then(res=>{
                 console.log(res);
                 if(res.status === 200){

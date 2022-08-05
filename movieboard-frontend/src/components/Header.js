@@ -15,6 +15,8 @@ const StyledName = styled(Link)`
 const Header = (props) => {
     const {setKeyword} = props;
     const [text, setText] = useState('');
+    // const { jwt. setJwt}  = userState; localStorage.getItem('user')
+    console.log('Header jwt : ',jwt)
 
     // home으로 이동 시 Search Text 비워주기, MovieList초기화
     const handleSearchValue = (e) => {
@@ -32,14 +34,21 @@ const Header = (props) => {
         setText('');
     } 
 
+
     return (
         <StyledContainer variant="light">
             <Container>
                 <StyledName to='/' className='navbar-brand' onClick={handleSearchValue}>무빙</StyledName>
                 <Nav className="me-auto">
-                    <Link to='/loginForm' className='nav-link'>LOGIN</Link>
-                    <Link to='/joinForm' className='nav-link'>JOIN</Link>
-                    <Nav.Link>LOGOUT</Nav.Link>
+                    { localStorage.getItem('user') === null &&
+                        <Link to='/joinForm' className='nav-link'>JOIN</Link> }
+                    { localStorage.getItem('user') === null
+                        ? <Link to='/loginForm' className='nav-link'>LOGIN</Link> 
+                        : <Link to='/logout' className='nav-link'>LOGOUT</Link>
+                    }
+                    {/* <Link to='/loginForm' className='nav-link'>LOGIN</Link>
+                    <Link to='/joinForm' className='nav-link'>JOIN</Link> 
+                    <Link to='/logout' className='nav-link'>LOGOUT</Link> */}
                     <Link to='/addForm' className='nav-link'>ADD</Link>
                     
                 </Nav>

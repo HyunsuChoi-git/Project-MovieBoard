@@ -42,7 +42,7 @@ const MydModalWithGrid = (props) => {
             formData.append('comment', new Blob([JSON.stringify(comment)], {
                 type: "application/json"
             }));
-            post("http://localhost:8080/comment", formData, {}
+            post("http://localhost:8080/user/comment", formData, {}
             ).then(res => {
                 props.onHide();
                 if(commentTogle === false){

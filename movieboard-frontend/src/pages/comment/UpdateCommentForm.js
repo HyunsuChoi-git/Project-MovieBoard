@@ -46,7 +46,7 @@ const MydModalWithGrid = (props) => {
             formData.append('comment', new Blob([JSON.stringify(newComment)], {
                 type: "application/json"
             }));
-            put("http://localhost:8080/comment/"+newComment.id, formData, {}
+            put("http://localhost:8080/user/comment/"+newComment.id, formData, {}
                 ).then(res => {
                     alert('수정되었습니다.');
                     props.onHide();

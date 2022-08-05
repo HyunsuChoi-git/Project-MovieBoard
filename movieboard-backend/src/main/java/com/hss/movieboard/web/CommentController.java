@@ -30,17 +30,18 @@ public class CommentController {
 
 	private final CommentService commentService;
 	
-	@PostMapping("/comment")	// 코멘트 등록
+	@PostMapping("/user/comment")	// 코멘트 등록
 	public ResponseEntity<?> saveComment(@RequestPart("comment") Comment comment) {	
+		System.out.println("코멘트 등록");
 		return new ResponseEntity<>(commentService.saveComment(comment), HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/comment/{id}")	//코멘트 삭제
+	@DeleteMapping("/user/comment/{id}")	//코멘트 삭제
 	public ResponseEntity<?> deleteComment(@PathVariable Long id) {
 		return new ResponseEntity<>(commentService.deleteComment(id), HttpStatus.OK);
 	}
 	@CrossOrigin
-	@PutMapping("/comment/{id}")	//코멘트 수정
+	@PutMapping("/user/comment/{id}")	//코멘트 수정
 	public ResponseEntity<?> updateComment(@RequestPart("comment") Comment comment) {	
 		return new ResponseEntity<>(commentService.updateComment(comment), HttpStatus.OK);
 	}
@@ -50,7 +51,7 @@ public class CommentController {
 		return commentService.getMovieComments(titleId, title);
 	}
 	
-	@GetMapping("/comment")	// 전체코멘트 불러오기
+	@GetMapping("/user/comment")	// 전체코멘트 불러오기
 	public List<Comment> getAllComments() {
 		return commentService.getAllComments();
 	}

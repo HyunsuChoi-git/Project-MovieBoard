@@ -7,8 +7,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.hss.movieboard.domain.dto.Users;
-import com.hss.movieboard.domain.type.RoleLevel;
 
+import lombok.Data;
+
+@Data
 public class PrincipalDetails implements UserDetails{
 	
 	private Users user;
@@ -19,9 +21,7 @@ public class PrincipalDetails implements UserDetails{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// 권한Rule 담아주기
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-//		RoleLevel.class.getEnclosingConstructor()..forEach(r -> {
-//			authorities.add(()->r);
-//		});
+		user.getRuleList().forEach(r -> { authorities.add( () -> r ); });
 		return authorities;
 	}
 	@Override
@@ -48,6 +48,5 @@ public class PrincipalDetails implements UserDetails{
 	public boolean isEnabled() {
 		return true;
 	}
-	
 	
 }

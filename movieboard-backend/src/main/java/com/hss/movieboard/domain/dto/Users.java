@@ -38,12 +38,12 @@ public class Users {
 	@Enumerated(EnumType.STRING)
 	private RoleLevel roles;	//USER,ADMIN ...
 	
-//	public List<String> getRuleList(){
-//		RoleLevel.values();
-////		if(this.roles.length() > 0) {
-////			return Arrays.asList(this.roles.split(","));
-////		}
-//		return new ArrayList<>();
-//	}
+	public List<String> getRuleList(){
+		List<String> roleList = new ArrayList<>();
+		Arrays.asList(RoleLevel.values()).forEach(r -> 
+			roleList.add(r.name())
+		);
+		return roleList;
+	}
 	
 }

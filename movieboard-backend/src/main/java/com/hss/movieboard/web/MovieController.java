@@ -29,12 +29,13 @@ public class MovieController {
 	private final MovieService movieService;
 	
 
-	@PostMapping("/movie")
+	@PostMapping("/manager/movie")
 	public ResponseEntity<?> save(@RequestPart("movie") Movie movie){
+		System.out.println("- 영화 등록");
 		return new ResponseEntity<>(movieService.saveMovie(movie), HttpStatus.CREATED); //200
 	}
 	
-	@PostMapping("/movieplus")
+	@PostMapping("/manager/movieplus")
 	public ResponseEntity<?> saveWithPhoto(@RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
 		
 		if(file != null) {
@@ -62,12 +63,12 @@ public class MovieController {
 		return new ResponseEntity<>(movieService.getMovie(id), HttpStatus.OK); //200
 	}
 	
-	@PutMapping("/movie/{id}")
+	@PutMapping("/manager/movie/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id, @RequestPart("movie") Movie movie){
 		return new ResponseEntity<>(movieService.modifyMovie(id, movie), HttpStatus.OK); //200
 	}
 
-	@PutMapping("/movieplus/{id}")
+	@PutMapping("/manager/movieplus/{id}")
 	public ResponseEntity<?> updateWithPhoto(@PathVariable Long id, @RequestPart("movie") Movie movie, @RequestPart("file")MultipartFile file) throws IllegalStateException, IOException{
 		
 		if(file != null) {
@@ -86,7 +87,7 @@ public class MovieController {
 		return new ResponseEntity<>(movieService.modifyMovie(id, movie), HttpStatus.OK); //200
 	}
 	
-	@DeleteMapping("/movie/{id}")
+	@DeleteMapping("/manager/movie/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id){
 		return new ResponseEntity<>(movieService.deleteMovie(id), HttpStatus.OK); //200
 		

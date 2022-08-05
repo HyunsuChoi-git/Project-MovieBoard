@@ -25,7 +25,6 @@ const LoginForm = () => {
     const navigation = useNavigate();
 
     const handleValue = (e) => {
-        console.log(e.target.value);
         if(e.target.name === 'email') {
             setEmail(e.target.value);
         }else{
@@ -35,12 +34,18 @@ const LoginForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('pw', pw);
+        // const formData = new FormData();
+        // formData.append('email', email);
+        // formData.append('pw', pw);
 
-        post("http://localhost:8080/login", formData, {}
+        post("http://localhost:8080/login", {
+            'email' : email,
+            'pw' : pw
+        }, {"Content-Type": 'application/json'}
             ).then(res => {
+                console.log('로그인 jwt : '+res.headers.authorization);
+                // jwt 토큰 로컬스토리지에 저장
+                localStorage.setItem('user', JSON.stringify(res.headers.authorization));
                 navigation('/');
             }).catch(err => {
                 //console.log(err.response.data.message); --> 서버단 에러메세지 출력~

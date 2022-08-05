@@ -54,7 +54,7 @@ const MydModalWithGrid = (props) => {
         }));
 
         if(file !== undefined) {
-            url = 'http://localhost:8080/movieplus/'+movie.id;
+            url = 'http://localhost:8080/manager/movieplus/'+movie.id;
             formData.append('file', file);
             config = {
                 headers: {
@@ -62,7 +62,7 @@ const MydModalWithGrid = (props) => {
                 }
             }
         }else{
-            url = 'http://localhost:8080/movie/'+movie.id;
+            url = 'http://localhost:8080/manager/movie/'+movie.id;
         }
 
         put(url, formData, config)

@@ -33,7 +33,7 @@ const DeleteComment = (props) => {
     const hadleDelete = (e) => {
 
         fetch(
-            'http://localhost:8080/comment/'+id, { method: "DELETE" })
+            'http://localhost:8080/user/comment/'+id, { method: "DELETE" })
             .then(res=>{
                 console.log(res);
                 if(res.status === 200){

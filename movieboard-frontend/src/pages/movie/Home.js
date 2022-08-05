@@ -26,8 +26,6 @@ const Home = (props) => {
     }, []);
 
     useMemo(()=>{
-        console.log("keyword", keyword);
-        console.log("memo", moives);
         if (!(keyword === '' || keyword === undefined)) {
             console.log("키워드");
             const  keywordMovieList = moives.filter((c) => {
@@ -36,7 +34,7 @@ const Home = (props) => {
         }else{
             setMovieList(moives);   // 원데이터를 화면에 뿌릴 데이터에 넣어줌
         }
-        console.log("memo", moiveList);
+
     },[keyword]);
 
 

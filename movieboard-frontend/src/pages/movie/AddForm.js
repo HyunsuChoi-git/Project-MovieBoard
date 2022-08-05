@@ -64,7 +64,7 @@ const AddForm = (props) => {
         }));
 
         if(file !== undefined) {
-            url = 'http://localhost:8080/movieplus';
+            url = 'http://localhost:8080/manager/movieplus';
             formData.append('file', file);
             config = {
                 headers: {
@@ -72,7 +72,7 @@ const AddForm = (props) => {
                 }
             }
         }else{
-            url = 'http://localhost:8080/movie';
+            url = 'http://localhost:8080/manager/movie';
         }
 
         post(url, formData, config

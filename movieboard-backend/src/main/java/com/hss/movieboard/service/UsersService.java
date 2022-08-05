@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hss.movieboard.domain.UsersRepository;
@@ -18,19 +19,20 @@ import lombok.RequiredArgsConstructor;
 public class UsersService {
 	
 	private final UsersRepository usersRepository;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Transactional // 회원가입
 	public String saveUser(Users user) {
 		
 		Users userEntity = Users.builder()
 				.email(user.getEmail())
-				.pw(user.getPw())
+				.pw(bCryptPasswordEncoder.encode(user.getPw())) // 패스워드 암호화
 				.gender(user.getGender())
 				.birth(user.getBirth())
 				.roles(RoleLevel.ROLE_USER)
 				.build();
 		
-		usersRepository.save(user);
+		usersRepository.save(userEntity);
 		
 		return user.getEmail();
 	}
