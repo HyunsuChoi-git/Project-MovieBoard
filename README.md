@@ -1,4 +1,4 @@
-# React-Springboot Memoboard 프로젝트
+# React-Springboot Movieboard 프로젝트
 
 ### 스프링부트
 
