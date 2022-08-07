@@ -21,9 +21,9 @@
 - yarn add @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-brands-svg-icons
 - yarn add @fortawesome/react-fontawesome@latest
 
-'''txt
+```txt
 import 'bootstrap/dist/css/bootstrap.min.css';
-'''
+```
 
 ### 프로젝트 세팅
 
