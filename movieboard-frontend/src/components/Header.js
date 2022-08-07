@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -13,10 +13,12 @@ const StyledName = styled(Link)`
 `;
 
 const Header = (props) => {
-    const {setKeyword} = props;
+    const {setKeyword, login} = props;
     const [text, setText] = useState('');
-    // const { jwt. setJwt}  = userState; localStorage.getItem('user')
-    console.log('Header jwt : ',jwt)
+
+    useEffect(()=>{
+        
+    }, [login]);
 
     // home으로 이동 시 Search Text 비워주기, MovieList초기화
     const handleSearchValue = (e) => {
@@ -40,16 +42,20 @@ const Header = (props) => {
             <Container>
                 <StyledName to='/' className='navbar-brand' onClick={handleSearchValue}>무빙</StyledName>
                 <Nav className="me-auto">
-                    { localStorage.getItem('user') === null &&
+                    { login ||
+                        <Link to='/loginForm' className='nav-link'>LOGIN</Link> }
+                    { login ||
                         <Link to='/joinForm' className='nav-link'>JOIN</Link> }
-                    { localStorage.getItem('user') === null
-                        ? <Link to='/loginForm' className='nav-link'>LOGIN</Link> 
-                        : <Link to='/logout' className='nav-link'>LOGOUT</Link>
-                    }
+                    { login &&
+                        <Link to='/modifyForm' className='nav-link'>MY PAGE</Link> }
+                    { login &&
+                        <Link to='/logout' className='nav-link'>LOGOUT</Link> }
+                    { login &&
+                        <Link to='/addForm' className='nav-link'>ADD</Link> }
+
                     {/* <Link to='/loginForm' className='nav-link'>LOGIN</Link>
                     <Link to='/joinForm' className='nav-link'>JOIN</Link> 
                     <Link to='/logout' className='nav-link'>LOGOUT</Link> */}
-                    <Link to='/addForm' className='nav-link'>ADD</Link>
                     
                 </Nav>
                 <Form className="d-flex" onSubmit={handleSubmit}>

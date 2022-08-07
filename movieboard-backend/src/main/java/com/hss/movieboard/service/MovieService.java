@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.hss.movieboard.domain.CommentRepository;
 import com.hss.movieboard.domain.MovieRepository;
 import com.hss.movieboard.domain.dto.Movie;
 
@@ -26,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class MovieService {
 	
 	private final MovieRepository movieRepository;
+	private final CommentService commentService;
 	
 //	private String folderPath = "C:\\Users\\HS\\Desktop\\React workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
 	private String folderPath = "C:\\Users\\kim\\Desktop\\workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
@@ -86,6 +88,7 @@ public class MovieService {
 		deletePhoto(id);
 
 		movieRepository.deleteById(id); //오류가 나면 알아서 exception을 타므로 따로 exception처리 해줄 필요 X
+		commentService.deleteMovieComments(id);
 		return "ok";
 	}
 

@@ -41,18 +41,22 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 		// TODO Auto-generated method stub
 
 		System.out.println("- 인증이나 권한이 필요한 주소 요청");
-		
 		// 1. Header에서 Authorization 값(jwt토큰) 추출 
 		String jwtHeader = request.getHeader(JwtProperties.HEADER_STRING);
-		System.out.println("- jwtHeader : "+jwtHeader);
-		// 2. JWT 토큰 검증 (우리가 만든 토큰인지 아닌지)
-			// 토큰유무, 우리가 토큰 만들 때 토큰 앞에 붙힌 값 체크
-		if(jwtHeader == null || !jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+		
+		if(jwtHeader == null) {
 			chain.doFilter(request, response);
 			return;
 		}
-		System.out.println("- jwtHeader : "+jwtHeader);
-		String jwtToken = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
+		// 2. JWT 토큰 검증 (우리가 만든 토큰인지 아닌지)
+			// 토큰유무, 우리가 토큰 만들 때 토큰 앞에 붙힌 값 체크
+		if(!jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX)) {
+			System.out.println("- 토큰 인증오류 " + jwtHeader.startsWith(JwtProperties.TOKEN_PREFIX));
+			chain.doFilter(request, response);
+			return;
+		}
+
+		String jwtToken = jwtHeader.replace(JwtProperties.TOKEN_PREFIX, "");
 		String email = JWT.require(Algorithm.HMAC512(JwtProperties.SECRET)).build()
 				.verify(jwtToken)	// 서명하기
 				.getClaim("email")	// 서명정상적으로 되면 우리가 개인키로 넣었던 claim 가져오기

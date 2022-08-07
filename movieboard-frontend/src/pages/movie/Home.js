@@ -12,12 +12,11 @@ const StyledContainerDiv = styled.div`
 const Home = (props) => {
 
     const { keyword } = props;
-
     const [moives, setMovies] = useState([]);   // 원데이터
     const [moiveList, setMovieList] = useState([]); // 화면에 뿌릴 데이터
 
     useEffect(()=> {
-        fetch('http://localhost:8080/movie', {  method : "GET" })
+        fetch('http://localhost:8080/movie', {  method : "GET",})
             .then(res=>res.json())
             .then(res=>{
                 setMovies(res);

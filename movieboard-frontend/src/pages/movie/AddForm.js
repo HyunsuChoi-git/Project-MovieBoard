@@ -68,11 +68,17 @@ const AddForm = (props) => {
             formData.append('file', file);
             config = {
                 headers: {
-                    "Contest-Type": "multipart/form-data"
+                    "Contest-Type": "multipart/form-data",
+                    "Authorization" : JSON.parse(localStorage.getItem('jwt'))
                 }
-            }
+            };
         }else{
             url = 'http://localhost:8080/manager/movie';
+            config = {
+                headers: {
+                    "Authorization" : JSON.parse(localStorage.getItem('jwt'))
+                }
+            };
         }
 
         post(url, formData, config
@@ -144,7 +150,6 @@ const AddForm = (props) => {
                             </ToggleButton>
                         ))}
                     </ButtonGroup>        
-                    {/* <Form.Control type="text" placeholder="1 ~ 10" name="grade" onChange={(e) => handleValueChange(e)}/> */}
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formGridPhoto">

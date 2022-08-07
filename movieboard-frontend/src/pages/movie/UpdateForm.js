@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { Button, ButtonGroup, Form, Modal, ToggleButton } from 'react-bootstrap';
 import { put } from 'axios';
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const StyledButton = styled(Button)`  // 버튼
     height: 32px;       // 버튼크기
@@ -27,6 +27,20 @@ const MydModalWithGrid = (props) => {
         photo : ''
     });
     const [file, setFile] = useState();
+
+    const radios = [
+        { name: '0', value: 0 },
+        { name: '1', value: 1 },
+        { name: '2', value: 2 },
+        { name: '3', value: 3 },
+        { name: '4', value: 4 },
+        { name: '5', value: 5 },
+        { name: '6', value: 6 },
+        { name: '7', value: 7 },
+        { name: '8', value: 8 },
+        { name: '9', value: 9 },
+        { name: '10', value: 10 }
+      ];
 
     useEffect(() => {
         setMovie(props.movie);
@@ -58,11 +72,17 @@ const MydModalWithGrid = (props) => {
             formData.append('file', file);
             config = {
                 headers: {
-                    "Contest-Type": "multipart/form-data"
+                    "Contest-Type": "multipart/form-data",
+                    "Authorization" : JSON.parse(localStorage.getItem('jwt'))
                 }
-            }
+            };
         }else{
             url = 'http://localhost:8080/manager/movie/'+movie.id;
+            config = {
+                headers: {
+                    "Authorization" : JSON.parse(localStorage.getItem('jwt'))
+                }
+            };
         }
 
         put(url, formData, config)
@@ -121,9 +141,25 @@ const MydModalWithGrid = (props) => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formGridGrade">
-                        <Form.Label>GRADE</Form.Label>
-                        <Form.Control type="text" value={movie.grade} name="grade" onChange={handleValueChange}/>
-                    </Form.Group>
+                    <Form.Label>GRADE</Form.Label>
+                    <br/>
+                    <ButtonGroup>
+                        {radios.map((radio, idx) => (
+                            <ToggleButton
+                                key={idx}
+                                id={`radio-${idx}`}
+                                type="radio"
+                                variant={idx % 2 ? 'outline-success' : 'outline-danger'}
+                                name="grade"
+                                value={radio.value}
+                                checked={movie.grade === radio.value}
+                                onChange={(e) => handleValueChange(e)}
+                            >
+                                {radio.name}
+                            </ToggleButton>
+                        ))}
+                    </ButtonGroup>        
+                </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formGridPhoto">
                         <Form.Label>PHOTO</Form.Label>
@@ -141,13 +177,29 @@ const MydModalWithGrid = (props) => {
     );
 };
 
+
 const UpdateForm = (props) => {
+    const {login} = props;
     const {updateTogle, setUpdateTogle} = props;
     const [modalShow, setModalShow] = useState(false);
+    const navigation = useNavigate();
+
+    const alertLogin = () => {
+        alert('로그인이 필요합니다.');
+        navigation('/loginForm');
+    }
+
+    const handleClick = (e) => {
+        if(login){
+            setModalShow(true);
+        }else{
+            alertLogin();
+        }
+    }
 
     return (
         <div>
-            <StyledButton variant="primary" name={'update'} onClick={() => setModalShow(true)}>update</StyledButton>
+            <StyledButton variant="primary" name={'update'} onClick={handleClick}>update</StyledButton>
             <MydModalWithGrid show={modalShow} movie={props.movie} updateTogle={updateTogle} setUpdateTogle={setUpdateTogle} onHide={() => setModalShow(false)} /> 
         </div>
     );

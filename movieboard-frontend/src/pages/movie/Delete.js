@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 
 const StyledButton = styled(Button)`  // 버튼
@@ -17,39 +18,46 @@ const Delete = (props) => {
     const [show, setShow] = useState(false);
     const navigation = useNavigate();
 
-    const { id, title } = props;
+    const { id, title, login } = props;
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const hadleDelete = (e) => {
 
-        fetch(
-            'http://localhost:8080/manager/movie/'+id, { method: "DELETE" })
-            .then(res=>{
-                console.log(res);
-                if(res.status === 200){
-                    return "OK";
-                }else{
-                    return null;
-                }
-            })
-            .then(res=> {
-                if(res !== null){
-                    alert('삭제되었습니다.');
-                    navigation('/', {replace: true});
-                }else{
-                    alert('오류가 발생하였습니다.');
-                }
-            });
+        const url = 'http://localhost:8080/manager/movie/'+id;
+        const config = {
+            headers: { "Authorization" : JSON.parse(localStorage.getItem('jwt'))  }
+        };
+
+        axios.delete(url, config)
+        .then(res => {
+            alert('삭제되었습니다.');
+            navigation('/', {replace: true});
+        }).catch(err => {
+            //console.log(err.response.data.message); --> 서버단 에러메세지 출력~
+            alert('오류가 발생하였습니다.');
+        });
 
         handleClose();
     }
 
+    const alertLogin = () => {
+        alert('로그인이 필요합니다.');
+        navigation('/loginForm');
+    }
+
+    const handleClick = (e) => {
+        if(login){
+            handleShow();
+        }else{
+            alertLogin();
+        }
+    }
 
     return (
         <div>
-            <StyledButton variant="danger" onClick={handleShow}>delete</StyledButton>
+            <StyledButton variant="danger" onClick={handleClick}>delete</StyledButton>
 
             <Modal show={show} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>

@@ -7,9 +7,10 @@ import { faStar, faStarHalf } from "@fortawesome/free-solid-svg-icons";
 import UpdateForm from './UpdateForm';
 
 import Delete from './Delete';
-import CommentForm from '../comment/AddCommentForm';
+import AddCommentForm from '../comment/AddCommentForm';
 import DeleteComment from '../comment/DeleteComment';
 import UpdateCommentForm from '../comment/UpdateCommentForm';
+import { commentRoleLevel, movieRoleLevel } from '../../properties/RoleProperties';
 
 const StyledContainerCard = styled(Card)`   //전체 컨테이너
     margin: auto;
@@ -52,10 +53,9 @@ const StyledCardBody_2 = styled(Card.Body)` // 버튼 칸
 
 
 const Detail = (props) => {
-
+    const {login} = props;
     const propsParam = useParams();
     const id =  propsParam.id;
-
     const src = process.env.PUBLIC_URL+"/image/";
 
     const [updateTogle, setUpdateTogle] = useState(false);
@@ -74,7 +74,6 @@ const Detail = (props) => {
     const [ liComments, setLiComment ] = useState([]);
 
     useEffect(() => {
-        console.log('zzzzz');
         // 영화정보
         fetch("http://localhost:8080/movie/"+id, { method : "GET" })
             .then( res => res.json(), {
@@ -86,7 +85,7 @@ const Detail = (props) => {
     }, [updateTogle]);
     
     // 영화정보 렌더링이 완료되면 감상평 가져오기
-    const getComments = useMemo(() => {
+    useMemo(() => {
         // 감상평
         fetch("http://localhost:8080/comment/"+id+"&"+movie.title, { method : "GET" })
         .then( res => res.json() )
@@ -117,9 +116,17 @@ const Detail = (props) => {
                         <StyledComment>{
                             liComments.map((comment, index) => {
                                 return (
-                                    <p key={index}>{comment.content} ({comment.email.substring(0,5)}...)
-                                    <DeleteComment id={comment.id} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>
-                                    <UpdateCommentForm comment={comment} commentTogle={commentTogle} setCommentTogle={setCommentTogle} />
+                                    <p key={index}>{comment.content} ({
+                                        comment.email !== null && comment.email.substring(0,5)}...)
+                                    {(comment.email === JSON.parse(localStorage.getItem('email')) 
+                                        || commentRoleLevel.includes(JSON.parse(localStorage.getItem('role'))))
+                                        &&     // 글쓴이 이거나, manager이상만 삭제 가능
+                                        <DeleteComment id={comment.id} login={login} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>
+                                    }
+                                    {comment.email === JSON.parse(localStorage.getItem('email'))   // 글쓴이일 경우에만 수정 가능
+                                        &&
+                                        <UpdateCommentForm comment={comment} login={login} commentTogle={commentTogle} setCommentTogle={setCommentTogle} />
+                                    }
                                     </p>
                                 )
                             })
@@ -130,12 +137,14 @@ const Detail = (props) => {
             </StyledCardBody_1>
             
             <StyledCardBody_2>
-                <Delete id={id} title={movie.title}/>
                 {/* 관리자 */}
-                <UpdateForm movie={movie} updateTogle={updateTogle} setUpdateTogle={setUpdateTogle}/>
+                {movieRoleLevel.includes(JSON.parse(localStorage.getItem('role'))) &&
+                    <Delete id={id} login={login} title={movie.title}/> }
+                {movieRoleLevel.includes(JSON.parse(localStorage.getItem('role'))) &&
+                    <UpdateForm movie={movie} login={login} updateTogle={updateTogle} setUpdateTogle={setUpdateTogle}/> }
                 {/* 회원 */}
-                <CommentForm movie={movie} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>
-            </StyledCardBody_2>
+                <AddCommentForm movie={movie} login={login} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>
+            </StyledCardBody_2> 
         </StyledContainerCard>      
 
     );

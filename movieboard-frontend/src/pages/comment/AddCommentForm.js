@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, FloatingLabel, Form, Modal } from 'react-bootstrap';
 import styled from "styled-components";
 import { post } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const StyledButton = styled(Button)`  // 버튼
     height: 32px;       // 버튼크기
@@ -24,7 +25,7 @@ const MydModalWithGrid = (props) => {
     });
 
     useEffect(()=> {
-        setComment({...comment, titleId : movie.id, title : movie.title});
+        setComment({...comment, titleId : movie.id, title : movie.title, email: JSON.parse(localStorage.getItem('email'))});
     }, [movie])
 
     const handleValueChange = (e) => {
@@ -33,17 +34,25 @@ const MydModalWithGrid = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        
+
         if(comment === ''){
             alert('감상평을 입력하세요.');
         }else{
             setComment({...comment, titleId : movie.id, title : movie.title});
-
+            console.log(comment);
+            const url = "http://localhost:8080/user/comment";
             const formData = new FormData();
             formData.append('comment', new Blob([JSON.stringify(comment)], {
                 type: "application/json"
             }));
-            post("http://localhost:8080/user/comment", formData, {}
-            ).then(res => {
+            const config = {
+                headers: { "Authorization" : JSON.parse(localStorage.getItem('jwt'))}
+            }
+
+            post(url, formData, config)
+                .then(res => {
                 props.onHide();
                 if(commentTogle === false){
                     setCommentTogle(true);
@@ -80,14 +89,29 @@ const MydModalWithGrid = (props) => {
 
 
 const CommentForm = (props) => {
-    const {commentTogle, setCommentTogle} = props;
+    const {commentTogle, setCommentTogle, login} = props;
     const [modalShow, setModalShow] = useState(false);
     const { movie } = props;
+
+    const navigation = useNavigate();
+
+    const alertLogin = () => {
+        alert('로그인이 필요합니다.');
+        navigation('/loginForm');
+    }
+
+    const handleClick = (e) => {
+        if(login){
+            setModalShow(true);
+        }else{
+            alertLogin();
+        }
+    }
 
 
     return (
         <div>
-            <StyledButton variant="primary" name={'update'} onClick={() => setModalShow(true)}>comment</StyledButton>
+            <StyledButton variant="primary" name={'update'} onClick={handleClick}>comment</StyledButton>
             <MydModalWithGrid show={modalShow} movie={movie} commentTogle={commentTogle} setCommentTogle={setCommentTogle} onHide={() => setModalShow(false)} /> 
         </div>
     );

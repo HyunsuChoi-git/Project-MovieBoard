@@ -37,26 +37,30 @@ public class UsersService {
 		return user.getEmail();
 	}
 	
-	@Transactional	// 로그인체크
-	public String checkLogin(String email, String pw) {
-		System.out.println(" - 로그인 체크");
-
-		Users userEntity = usersRepository.findById(email)
-				.orElseThrow(() -> new IllegalArgumentException("이메일과 패스워드를 확인하세요."));
-		
-		if(userEntity.getPw() != pw) {
-			new IllegalArgumentException("이메일과 패스워드를 확인하세요.");
-		}
-		
-		return "ok";
-	}
+//	@Transactional	// 로그인체크
+//	public String checkLogin(String email, String pw) {
+//
+//		Users userEntity = usersRepository.findById(email)
+//				.orElseThrow(() -> new IllegalArgumentException("이메일과 패스워드를 확인하세요."));
+//		
+//		if(userEntity.getPw() != pw) {
+//			new IllegalArgumentException("이메일과 패스워드를 확인하세요.");
+//		}
+//		
+//		return "ok";
+//	}
 	
 	@Transactional	// 회원정보 수정
 	public Users updateUser(Users user, String email) {
+		
+		System.out.println(user);
+		System.out.println(email);
+		
 		Users userEntity = usersRepository.findById(email)
 				.orElseThrow(() -> new IllegalArgumentException("이메일을 확인하세요."));
-		userEntity.setPw(user.getPw());
-		
+		userEntity.setPw(bCryptPasswordEncoder.encode(user.getPw()));
+		userEntity.setBirth(user.getBirth());
+		userEntity.setGender(user.getGender());
 		
 		return userEntity;
 	}
@@ -74,6 +78,20 @@ public class UsersService {
 	public List<Users> getAllUsers() {
 
 		return usersRepository.findAll();
+	}
+	
+	@Transactional	// 회원 권한 가져오기
+	public Object getRole(String email) {
+
+		return usersRepository.findById(email)
+				.orElseThrow(() -> new IllegalArgumentException("이메일과 패스워드를 확인하세요."))
+				.getRoles();
+	}
+
+	public Object getUser(String email) {
+
+		return usersRepository.findById(email)
+				.orElseThrow(() -> new IllegalArgumentException("이메일을 확인하세요."));
 	}
 
 }

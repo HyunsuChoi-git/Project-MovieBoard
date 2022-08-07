@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, FloatingLabel, Form, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
-import put from 'axios';
+import {put} from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const StyledDiv = styled.div`
     position: relative;
@@ -34,7 +35,6 @@ const MydModalWithGrid = (props) => {
 
     const handleValueChange = (e) => {
         setNewComment({...newComment, content : e.target.value});
-        console.log(3, newComment);
     }
 
     const handleSubmit = (e) => {
@@ -42,12 +42,17 @@ const MydModalWithGrid = (props) => {
         if(newComment === ''){
             alert('감상평을 입력하세요.');
         }else{
+            const url = "http://localhost:8080/user/comment/"+newComment.id;
             const formData = new FormData();
             formData.append('comment', new Blob([JSON.stringify(newComment)], {
                 type: "application/json"
             }));
-            put("http://localhost:8080/user/comment/"+newComment.id, formData, {}
-                ).then(res => {
+            const config = {
+                headers: { "Authorization" : JSON.parse(localStorage.getItem('jwt'))}
+            }
+
+            put(url, formData, config)
+                .then(res => {
                     alert('수정되었습니다.');
                     props.onHide();
                     if(commentTogle === false){
@@ -86,14 +91,31 @@ const MydModalWithGrid = (props) => {
 
 
 const UpdatenewCommentForm = (props) => {
+    const {login} = props;
     const {commentTogle, setCommentTogle} = props;
     const [modalShow, setModalShow] = useState(false);
     const { comment } = props;
 
+    const navigation = useNavigate();
+
+    const alertLogin = () => {
+        alert('로그인이 필요합니다.');
+        navigation('/loginForm');
+    }
+
+    const handleClick = (e) => {
+        if(login){
+            setModalShow(true);
+        }else{
+            alertLogin();
+        }
+    }
 
     return (
         <StyledDiv>
-            <StyledButton variant="warning" name={'update'} onClick={() => setModalShow(true)}>수정</StyledButton>
+            { login &&
+                <StyledButton variant="warning" name={'update'} onClick={handleClick}>수정</StyledButton>
+            }
             <MydModalWithGrid show={modalShow} comment={comment} commentTogle={commentTogle} setCommentTogle={setCommentTogle} onHide={() => setModalShow(false)} /> 
         </StyledDiv>
     );

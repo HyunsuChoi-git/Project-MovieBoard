@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import styled from 'styled-components';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const StyledDiv = styled.div`
@@ -24,35 +26,30 @@ const StyledButton = styled(Button)`  // 버튼
 const DeleteComment = (props) => {
     const [show, setShow] = useState(false);
     const {commentTogle, setCommentTogle} = props;
+    const navigation = useNavigate();
 
-    const { id } = props;
+    const { id, login } = props;
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const hadleDelete = (e) => {
+        const url = 'http://localhost:8080/user/comment/'+id;
+        const config = {
+            headers: { "Authorization" : JSON.parse(localStorage.getItem('jwt'))  }
+        };
 
-        fetch(
-            'http://localhost:8080/user/comment/'+id, { method: "DELETE" })
-            .then(res=>{
-                console.log(res);
-                if(res.status === 200){
-                    return "OK";
-                }else{
-                    return null;
-                }
-            })
-            .then(res=> {
-                if(res !== null){
-                    if(commentTogle === false){
-                        setCommentTogle(true);
-                    }else{
-                        setCommentTogle(false);
-                    }
-                }else{
-                    alert('오류가 발생하였습니다.');
-                }
-            });
+        axios.delete(url, config)
+        .then(res => {
+            if(commentTogle === false){
+                setCommentTogle(true);
+            }else{
+                setCommentTogle(false);
+            }
+        }).catch(err => {
+            //console.log(err.response.data.message); --> 서버단 에러메세지 출력~
+            alert('오류가 발생하였습니다.');
+        });
 
         handleClose();
     }
@@ -60,8 +57,10 @@ const DeleteComment = (props) => {
 
     return (
         <StyledDiv>
-            <StyledButton variant="danger" onClick={handleShow}>삭제</StyledButton>
-
+            { login &&
+                <StyledButton variant="danger" onClick={handleShow}>삭제</StyledButton>
+            }
+            
             <Modal show={show} onHide={handleClose} animation={false}>
                 <Modal.Header closeButton>
                 <Modal.Title>삭제</Modal.Title>

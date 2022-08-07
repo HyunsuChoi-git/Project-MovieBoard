@@ -19,7 +19,8 @@ const StyledH2 = styled.h2`
 `;
 
 
-const LoginForm = () => {
+const LoginForm = (props) => {
+    const { setLogin } = props;
     const [email, setEmail] = useState();
     const [pw, setPw] = useState();
     const navigation = useNavigate();
@@ -34,19 +35,29 @@ const LoginForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // const formData = new FormData();
-        // formData.append('email', email);
-        // formData.append('pw', pw);
 
-        post("http://localhost:8080/login", {
+        const url = "http://localhost:8080/login";
+        const data = {
             'email' : email,
             'pw' : pw
-        }, {"Content-Type": 'application/json'}
-            ).then(res => {
-                console.log('로그인 jwt : '+res.headers.authorization);
-                // jwt 토큰 로컬스토리지에 저장
-                localStorage.setItem('user', JSON.stringify(res.headers.authorization));
-                navigation('/');
+        };
+        const config = {"Content-Type": 'application/json'};
+        
+        post(url, data, config)
+            .then(res => {
+                const loginRes = res;
+                post('http://localhost:8080/role',{'email':email}, {"Content-Type": 'application/json'})
+                    .then(res => {
+                        // 로그인 정보 로컬스토리지에 저장
+                        localStorage.setItem('jwt', JSON.stringify(loginRes.headers.authorization));
+                        localStorage.setItem('email', JSON.stringify(email));  
+                        localStorage.setItem('role', JSON.stringify(res.data));
+                        setLogin(true);
+                        navigation('/');
+                    }).catch(err => {
+                        alert('오류가 발생하였습니다. 관리자에게 문의하세요');
+                    })
+                
             }).catch(err => {
                 //console.log(err.response.data.message); --> 서버단 에러메세지 출력~
                 alert('이메일과 패스워드를 확인하세요.');

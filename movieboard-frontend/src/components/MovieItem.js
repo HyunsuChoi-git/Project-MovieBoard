@@ -34,8 +34,8 @@ const MovieItem = (props) => {
 
     return (
         <StyledItemDiv>
-            <Card style={{ width: '15rem', height:'25.8rem'}}>
-                <Card.Img variant="top" src={src+photo} alt="Movie img" height={260}/>
+            <Card style={{ width: '15rem', height:'28rem'}}>
+                <Card.Img variant="top" src={src+photo} alt="Movie img" height={300}/>
                 <Card.Body>
                     <StyledCardTitle>{title}</StyledCardTitle>
                     <StyledCardText>감독 : {director}</StyledCardText>
