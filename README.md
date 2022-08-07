@@ -39,7 +39,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
   ```
 
 - application.yml
-  ```txt
+  ```yml
   server:
     port: 8080
     servlet:
