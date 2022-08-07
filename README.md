@@ -1,6 +1,21 @@
-# React-Springboot Memoboard 프로젝트
+# React-Springboot Movieboard 프로젝트
 
-### 스프링부트
+### React.js, SpringBoot를 이용하여 영화를 등록하고 감상평을 서로 공유할 수 있는 사이트입니다.
+ - OS : Windows
+ - 프레임워크 : React.js, Springboot
+ - DB : MySQL
+ - 개발환경 : VScode, eclips
+ - 개발인원 : 1명
+ - 개발기간 : 3주
+
+#### 구현 기능
+ - 영화목록 보기(HOME화면), 영화정보 및 user 감상평 보기, 회원가입, 로그인 (모든 권한)
+ - 회원정보수정, 로그아웃 (USER권한 이상)
+ - 영화감상평 등록, 감상평 수정, 감상평 삭제 (본인 및 MANAGER권한 이상)
+ - 영화정보 등록, 영화정보 수정, 영화정보 삭제 (ADMIN 권한 이상)
+
+### 사용 기술
+#### 스프링부트
 
 - Springboot ^2.0
 - JPA
@@ -11,7 +26,7 @@
 - JWT
 
 
-### React
+#### React
 
 - yarn add react-router-dom
 - yarn add redux react-redux
@@ -21,14 +36,14 @@
 - yarn add @fortawesome/free-solid-svg-icons @fortawesome/free-regular-svg-icons @fortawesome/free-brands-svg-icons
 - yarn add @fortawesome/react-fontawesome@latest
 
-'''txt
+```txt
 import 'bootstrap/dist/css/bootstrap.min.css';
-'''
+```
 
 ### 프로젝트 세팅
 
 - .prettierrc
-  '''json
+  ```json
   {
   "sigleQuote" : true,
   "semi":true,
@@ -36,37 +51,36 @@ import 'bootstrap/dist/css/bootstrap.min.css';
   "trailingComma": "all",
   "printWidth" : 80
   }
-  '''
+  ```
 
 - application.yml
-'''txt
-server:
-  port: 8080
-  servlet:
-    encoding:
-      charset: utf-8   # 들어오는 모든 데이터를 utf-8로 받겠다. 
-      enabled: true
-      force: true
-      
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/movieboard?serverTimezone=Asia/Seoul&&useSSL=false
-    username: root
-    password: 1234
-    
-  jpa:
-    hibernate:
-      ddl-auto: update # create(서버 실행마다 테이블 새로 만들어짐), update(서버꺼져도 기존테이블 안사라짐), none
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-        #모델 네이밍에 맞출 것임을 명시함. 내가 적은 이름 그대로 컬럼명 만들어짐 
-    show-sql: true
-    database: mysql
-      
-  servlet:
-    multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+  ```yml
+  server:
+    port: 8080
+    servlet:
+      encoding:
+        charset: utf-8  
+        enabled: true
+        force: true
 
-'''
+  spring:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/movieboard?serverTimezone=Asia/Seoul&&useSSL=false
+      username: root
+      password: 1234
+
+    jpa:
+      hibernate:
+        ddl-auto: update 
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      show-sql: true
+      database: mysql
+
+    servlet:
+      multipart:
+        max-file-size: 50MB
+        max-request-size: 50MB
+
+  ```
