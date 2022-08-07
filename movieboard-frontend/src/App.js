@@ -10,6 +10,7 @@ import Logout from "./pages/user/Logout";
 import ModifyForm from "./pages/user/ModifyForm";
 import Home from "./pages/movie/Home";
 import { useEffect, useState } from "react";
+import KakaoLogin from "./pages/kakao/KakaoLogin";
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
   const [login, setLogin] = useState(false);
 
   useEffect(()=>{
-    if(JSON.parse(localStorage.getItem('jwt')) !== null){
+    if(localStorage.getItem('jwt') !== null){
       setLogin(true);
     };
   },[])
@@ -35,6 +36,7 @@ function App() {
           <Route path='/modifyForm' exact={true} element={<ModifyForm login={login}/>}/>
           <Route path='/updateForm' exact={true} element={<UpdateForm login={login} />}/>
           <Route path='/logout' exact={true} element={<Logout setLogin={setLogin}/>} />
+          <Route path='/kakaoLogin' exact={true} element={<KakaoLogin />}/>
         </Routes>
       </Container>
     </div>

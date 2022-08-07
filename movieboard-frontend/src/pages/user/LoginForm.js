@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import styled from 'styled-components';
 import { post } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { KAKAO_AUTH_URL } from '../../properties/KakaoPropertoes';
 
 
 const StyledContainer = styled.div`
@@ -18,6 +19,25 @@ const StyledH2 = styled.h2`
     color: slateblue;
 `;
 
+const StyledDiv = styled.div`
+    margin: auto;
+    padding: 0;
+    display: grid;
+    
+`;
+
+const StyledButton = styled(Button)`
+    margin: auto;
+    width: 18.8em;
+    height: 2.9em;
+    margin-bottom: 5px;
+`;
+
+const StyledImg = styled.img`
+    padding : 0;
+    margin : auto;
+`;
+
 
 const LoginForm = (props) => {
     const { setLogin } = props;
@@ -31,6 +51,10 @@ const LoginForm = (props) => {
         }else{
             setPw(e.target.value);
         }
+    }
+
+    const handleKaKao = (e) => {
+        window.location.href = KAKAO_AUTH_URL;
     }
 
     const handleSubmit = (e) => {
@@ -80,7 +104,10 @@ const LoginForm = (props) => {
                 <Form.Control type="password" name="pw" placeholder="Password" onChange={handleValue}/>
                 </Form.Group>
                 <br/>
-                <Button variant="primary" type="submit">Enter</Button>
+                <StyledDiv>
+                <StyledButton variant="primary" type="submit">ENTER</StyledButton>
+                <StyledImg className="btn" src={process.env.PUBLIC_URL+"/image/"+"kakao_login.png"} alt="kakaotalk login" onClick={handleKaKao} />
+                </StyledDiv>
             </Form>
         </StyledContainer>
     );
