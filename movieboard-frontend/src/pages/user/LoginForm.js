@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import styled from 'styled-components';
 import { post } from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { KAKAO_AUTH_URL } from '../../properties/KakaoPropertoes';
 
 

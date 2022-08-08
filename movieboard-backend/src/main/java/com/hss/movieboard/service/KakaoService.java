@@ -7,10 +7,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 
 import org.springframework.stereotype.Service;
 
 import com.google.gson.JsonParser;
+import com.hss.movieboard.domain.dto.Users;
+import com.hss.movieboard.domain.type.JwtProperties;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.google.gson.JsonElement;
 
 @Service
@@ -72,7 +77,7 @@ public class KakaoService {
 	}
 	
 	
-	public void createKakaoUser(String token) {
+	public Users createKakaoUser(String token) {
 
 		String reqURL = "https://kapi.kakao.com/v2/user/me";
 
@@ -103,21 +108,35 @@ public class KakaoService {
 	       JsonParser parser = new JsonParser();
            JsonElement element = parser.parse(result);
 	       int id = element.getAsJsonObject().get("id").getAsInt();
-	       System.out.println("id : "+ element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email"));
 	       boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
 	       String email = "";
+	       String gender = "";
+	       String birth = "";
 	       if(hasEmail){
 	           email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+	           gender = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("gender").getAsString();
+	           birth = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("birthday").getAsString();
 	       }
 
-	       System.out.println("id : " + id);
-	       System.out.println("email : " + email);
+	       System.out.println("email : " + email+" / gender : "+gender+" / birth : "+birth);
 
 	       br.close();
+	       
+	       Users user = Users.builder()
+	    		   .email(email)
+	    		   .gender(gender)
+	    		   .birth(birth)
+	    		   .build();
 
+	       return user;
+	       
 	       } catch (IOException e) {
 	            e.printStackTrace();
 	       }
+	    
+	    return null;	
 	 }
+
+
 	
 }

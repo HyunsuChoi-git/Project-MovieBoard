@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, Form, ToggleButton } from 'react-bootstrap';
 import styled from 'styled-components';
 import { post } from 'axios';
@@ -18,23 +18,30 @@ const StyledH2 = styled.h2`
 `;
 
 
-const JoinForm = () => {
-
+const JoinForm = (props) => {
+    const { kakaoUser } = props;
     const [user, setUser] = useState({
         email : '',
         pw : '',
         birth : '',
-        gender : '남'
+        gender : 'female'
     });
 
     const navigation = useNavigate();
-
     const [disagreePw, setDisagreePw] = useState(false);
 
     const radios = [
-      { name: '남', value: '남' },
-      { name: '여', value: '여' },
+      { name: '남', value: 'male' },
+      { name: '여', value: 'female' },
     ];
+
+    useEffect(()=>{
+        if(kakaoUser != null) {
+            setUser({...user, email:kakaoUser.email, birth:kakaoUser.birth, gender:kakaoUser.gender });
+        }
+        console.log(3, user);
+    },[kakaoUser]);
+    
 
     const handlePassword = (e) => { //비번일치여부
         if(user.pw === e.target.value){
@@ -60,7 +67,7 @@ const JoinForm = () => {
             post("http://localhost:8080/join", formData, {}
                 ).then(res => {
                     alert('회원가입이 완료되었습니다.');
-                    navigation('/');
+                    navigation('/loginForm');
                 }).catch(err => {
                     alert('회원가입에 실패하였습니다');
                 });
@@ -75,7 +82,12 @@ const JoinForm = () => {
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>이메일</Form.Label>
-                    <Form.Control type="email" name="email" placeholder="Enter email" onChange={handleValue}/>
+                    {
+                        kakaoUser != null 
+                        ? <Form.Control type="email" name="email" value={user.email} readOnly onChange={handleValue}/>
+                        : <Form.Control type="email" name="email" placeholder="Enter email" onChange={handleValue}/>
+                    }
+                    
                 </Form.Group>
         
                 <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -93,7 +105,12 @@ const JoinForm = () => {
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>생년월일</Form.Label>
-                    <Form.Control type="text" name="birth" placeholder="YYMMDD" onChange={handleValue}/>
+                    {
+                        kakaoUser != null 
+                        ? <Form.Control type="text" name="birth" value={user.birth} onChange={handleValue}/>
+                        : <Form.Control type="text" name="birth" placeholder="YYMMDD" onChange={handleValue}/>
+                    }
+                    
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">

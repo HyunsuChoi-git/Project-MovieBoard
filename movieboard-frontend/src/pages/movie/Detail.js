@@ -60,6 +60,8 @@ const Detail = (props) => {
 
     const [updateTogle, setUpdateTogle] = useState(false);
     const [commentTogle, setCommentTogle] = useState(false);
+    const [ userRole, setUserRole ] = useState('');
+    const [ userEmail, setUserEmail ] = useState('');
 
     const [ movie, setMovie ] = useState({
         id: '',
@@ -82,6 +84,13 @@ const Detail = (props) => {
             .then( res => {
                 setMovie(res);
             });
+
+        if(localStorage.getItem('role') !== null ){
+            setUserRole(JSON.parse(localStorage.getItem('role')));
+        }
+        if(localStorage.getItem('email') !== null ){
+            setUserEmail(JSON.parse(localStorage.getItem('email')));
+        }
     }, [updateTogle]);
     
     // 영화정보 렌더링이 완료되면 감상평 가져오기
@@ -118,13 +127,10 @@ const Detail = (props) => {
                                 return (
                                     <p key={index}>{comment.content} ({
                                         comment.email !== null && comment.email.substring(0,5)}...)
-                                    {(comment.email === JSON.parse(localStorage.getItem('email')) 
-                                        || commentRoleLevel.includes(JSON.parse(localStorage.getItem('role'))))
-                                        &&     // 글쓴이 이거나, manager이상만 삭제 가능
+                                    {(comment.email === userEmail || commentRoleLevel.includes(userRole)) &&    // 글쓴이 이거나, manager이상만 삭제 가능
                                         <DeleteComment id={comment.id} login={login} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>
                                     }
-                                    {comment.email === JSON.parse(localStorage.getItem('email'))   // 글쓴이일 경우에만 수정 가능
-                                        &&
+                                    {comment.email === userEmail && // 글쓴이일 경우에만 수정 가능
                                         <UpdateCommentForm comment={comment} login={login} commentTogle={commentTogle} setCommentTogle={setCommentTogle} />
                                     }
                                     </p>
@@ -138,9 +144,9 @@ const Detail = (props) => {
             
             <StyledCardBody_2>
                 {/* 관리자 */}
-                {movieRoleLevel.includes(JSON.parse(localStorage.getItem('role'))) &&
+                {movieRoleLevel.includes(userRole) &&
                     <Delete id={id} login={login} title={movie.title}/> }
-                {movieRoleLevel.includes(JSON.parse(localStorage.getItem('role'))) &&
+                {movieRoleLevel.includes(userRole) &&
                     <UpdateForm movie={movie} login={login} updateTogle={updateTogle} setUpdateTogle={setUpdateTogle}/> }
                 {/* 회원 */}
                 <AddCommentForm movie={movie} login={login} commentTogle={commentTogle} setCommentTogle={setCommentTogle}/>

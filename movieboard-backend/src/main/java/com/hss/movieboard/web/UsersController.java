@@ -38,8 +38,15 @@ public class UsersController {
 	@PutMapping("/user/{email}")	// 회원정보 수정하기
 	public ResponseEntity<?> updateUser(@PathVariable String email, @RequestPart("user") Users user){
 		System.out.println(email);
-		System.out.println(user);
+
 		return new ResponseEntity<>(usersService.updateUser(user, email), HttpStatus.OK);
+
+	}
+	
+	@DeleteMapping("/user/{email}")	//회원삭제
+	public ResponseEntity<?> deleteUser(@PathVariable String email){
+
+		return new ResponseEntity<>(usersService.deleteUser(email), HttpStatus.OK); //200
 	}
 	
 	@PostMapping("/role")	// 권한정보 가져오기
@@ -55,9 +62,5 @@ public class UsersController {
 		return  new ResponseEntity<>("ok", HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/admin/user/{email}")	//회원삭제
-	public ResponseEntity<?> deleteUser(@PathVariable String email){
-		return new ResponseEntity<>(usersService.deleteUser(email), HttpStatus.OK); //200
-		
-	}
+
 }

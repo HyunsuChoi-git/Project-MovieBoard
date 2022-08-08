@@ -8,6 +8,7 @@ const Logout = (props) => {
     setLogin(false);
     localStorage.removeItem('jwt');
     localStorage.removeItem('email');
+    localStorage.removeItem('role');
     navigation('/', {replace : true});
 };
 

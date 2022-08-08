@@ -10,12 +10,18 @@ import Logout from "./pages/user/Logout";
 import ModifyForm from "./pages/user/ModifyForm";
 import Home from "./pages/movie/Home";
 import { useEffect, useState } from "react";
-import KakaoLogin from "./pages/kakao/KakaoLogin";
+import KakaoLogin from "./api/KakaoLoginApi";
+
 
 function App() {
 
   const [keyword, setKeyword] = useState();
   const [login, setLogin] = useState(false);
+  const [kakaoUser, setKakaoUser] = useState({
+    email: '',
+    gender: '',
+    birth: ''
+  });
 
   useEffect(()=>{
     if(localStorage.getItem('jwt') !== null){
@@ -32,11 +38,11 @@ function App() {
           <Route path='/addForm' exact={true} element={<AddForm login={login}/>}/>
           <Route path='moive/:id' exact={true} element={<Detail login={login}/>}/>
           <Route path='/loginForm' exact={true} element={<LoginForm setLogin={setLogin}/>}/>
-          <Route path='/joinForm' exact={true} element={<JoinForm login={login}/>}/>
+          <Route path='/joinForm' exact={true} element={<JoinForm login={login} kakaoUser={kakaoUser}/>}/>
           <Route path='/modifyForm' exact={true} element={<ModifyForm login={login}/>}/>
           <Route path='/updateForm' exact={true} element={<UpdateForm login={login} />}/>
           <Route path='/logout' exact={true} element={<Logout setLogin={setLogin}/>} />
-          <Route path='/kakaoLogin' exact={true} element={<KakaoLogin />}/>
+          <Route path='/kakaoLogin' exact={true} element={<KakaoLogin setLogin={setLogin} setKakaoUser={setKakaoUser}/>}/>
         </Routes>
       </Container>
     </div>

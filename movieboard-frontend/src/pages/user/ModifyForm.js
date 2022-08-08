@@ -3,7 +3,9 @@ import { Button, ButtonGroup, Form, ToggleButton } from 'react-bootstrap';
 import styled from 'styled-components';
 import { put } from 'axios';
 import { post } from 'axios';
+import { axios } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import RemoveForm from './RemoveForm';
 
 
 const StyledContainer = styled.div`
@@ -16,6 +18,13 @@ const StyledH2 = styled.h2`
     margin: auto;
     font-weight: bolder;
     color: slateblue;
+`;
+const StyledDiv = styled.div`
+    position: relative;
+`;
+const StyledBtnDiv = styled.div`
+    position: relative;
+    float: left;
 `;
 
 
@@ -54,7 +63,7 @@ const JoinForm = () => {
                 });
             }).catch(err => {
                 alert('잘못된 접근입니다.');
-                navigation('/', {replace:true})
+                navigation('/logout', {replace:true})
             });
 
     }, []);
@@ -76,7 +85,7 @@ const JoinForm = () => {
         console.log('저장 >>', user)
         if(disagreePw === true){
 
-            const url = "http://localhost:8080/"+user.email;
+            const url = "http://localhost:8080/user/"+user.email;
             const formData = new FormData();
             formData.append('user', new Blob([JSON.stringify(user)], {
                 type: "application/json"
@@ -97,6 +106,7 @@ const JoinForm = () => {
             alert('패스워드가 일치하지 않습니다.');
         }
     };
+
 
     return (
         <StyledContainer>
@@ -146,7 +156,11 @@ const JoinForm = () => {
                     </ButtonGroup>
                 </Form.Group>
                 <br/>
-                <Button variant="primary" type="submit">Enter</Button>
+                <StyledBtnDiv>
+                    <Button variant="primary" type="submit">수정</Button>
+                </StyledBtnDiv>
+                <RemoveForm email={user.email}/>
+
             </Form>
         </StyledContainer>
     );

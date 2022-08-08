@@ -67,9 +67,7 @@ public class UsersService {
 	
 	@Transactional	// 회원정보 삭제
 	public String deleteUser(String email) {
-		
 		usersRepository.deleteById(email);
-		
 		return "ok";
 	}
 	
@@ -92,6 +90,11 @@ public class UsersService {
 
 		return usersRepository.findById(email)
 				.orElseThrow(() -> new IllegalArgumentException("이메일을 확인하세요."));
+	}
+	
+	// 유저 존재 여부 retrurn
+	public Users checkUser(String email) {
+		return usersRepository.findById(email).orElse(new Users());
 	}
 
 }
