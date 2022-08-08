@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Container, Form, Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { movieRoleLevel } from '../properties/RoleProperties';
 
 const StyledContainer = styled(Navbar)`
     background-color: snow;
@@ -15,8 +16,20 @@ const StyledName = styled(Link)`
 const Header = (props) => {
     const {setKeyword, login} = props;
     const [text, setText] = useState('');
+    const [email, setEamil] = useState('');
+    const [role, setRole] = useState('');
 
     useEffect(()=>{
+        if(localStorage.getItem('email') !== null){
+            setEamil(JSON.parse(localStorage.getItem('email')));
+        }else{
+            setEamil('');
+        }
+        if(localStorage.getItem('role') !== null){
+            setRole(JSON.parse(localStorage.getItem('role')));
+        }else{
+            setRole('');
+        }
         
     }, [login]);
 
@@ -42,15 +55,15 @@ const Header = (props) => {
             <Container>
                 <StyledName to='/' className='navbar-brand' onClick={handleSearchValue}>무빙</StyledName>
                 <Nav className="me-auto">
-                    { login ||
+                    { email === '' &&
                         <Link to='/loginForm' className='nav-link'>LOGIN</Link> }
-                    { login ||
+                    { email === '' &&
                         <Link to='/joinForm' className='nav-link'>JOIN</Link> }
-                    { login &&
+                    { email !== '' &&
                         <Link to='/modifyForm' className='nav-link'>MY PAGE</Link> }
-                    { login &&
+                    { email !== '' &&
                         <Link to='/logout' className='nav-link'>LOGOUT</Link> }
-                    { login &&
+                    { ( email !== '' && movieRoleLevel.includes(role) ) &&
                         <Link to='/addForm' className='nav-link'>ADD</Link> }
 
                     {/* <Link to='/loginForm' className='nav-link'>LOGIN</Link>
