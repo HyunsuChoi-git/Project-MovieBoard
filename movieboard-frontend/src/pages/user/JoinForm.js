@@ -36,10 +36,9 @@ const JoinForm = (props) => {
     ];
 
     useEffect(()=>{
-        if(kakaoUser != null) {
+        if(kakaoUser.email !== '') {
             setUser({...user, email:kakaoUser.email, birth:kakaoUser.birth, gender:kakaoUser.gender });
         }
-        console.log(3, user);
     },[kakaoUser]);
     
 
@@ -83,7 +82,7 @@ const JoinForm = (props) => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>이메일</Form.Label>
                     {
-                        kakaoUser != null 
+                        kakaoUser.email !== '' 
                         ? <Form.Control type="email" name="email" value={user.email} readOnly onChange={handleValue}/>
                         : <Form.Control type="email" name="email" placeholder="Enter email" onChange={handleValue}/>
                     }
@@ -106,7 +105,7 @@ const JoinForm = (props) => {
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>생년월일</Form.Label>
                     {
-                        kakaoUser != null 
+                        kakaoUser.gender !== ''  
                         ? <Form.Control type="text" name="birth" value={user.birth} onChange={handleValue}/>
                         : <Form.Control type="text" name="birth" placeholder="YYMMDD" onChange={handleValue}/>
                     }

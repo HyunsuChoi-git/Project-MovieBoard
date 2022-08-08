@@ -68,6 +68,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter{
 			
 			PrincipalDetails principalDetails = new PrincipalDetails(userEntity.get());
 			
+			System.out.println(" roles : "+principalDetails.getAuthorities());
 			//Authentication 객체를 생성해준다.
 			Authentication authentication = new UsernamePasswordAuthenticationToken(
 					principalDetails, null, principalDetails.getAuthorities() );

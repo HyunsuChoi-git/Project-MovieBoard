@@ -35,15 +35,14 @@ public class Users {
 	private String pw;
 	private String birth;
 	private String gender;
-	@Enumerated(EnumType.STRING)
-	private RoleLevel roles;	//USER,ADMIN ...
+	private String roles;	//USER,ADMIN ...
 	
-	public List<String> getRuleList(){
-		List<String> roleList = new ArrayList<>();
-		Arrays.asList(RoleLevel.values()).forEach(r -> 
-			roleList.add(r.name())
-		);
-		return roleList;
-	}
+//	public List<String> getRoleList(){	
+//		if(this.roles.length() > 0) {
+//			return Arrays.asList(this.roles.split(","));
+//		}
+//		
+//		return new ArrayList<>();
+//	}
 	
 }

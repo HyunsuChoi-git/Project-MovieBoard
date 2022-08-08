@@ -72,7 +72,7 @@ public class KakaoController {
 				.withSubject(user.getEmail()) //토큰명
 				.withExpiresAt(new Date(System.currentTimeMillis()+(60000*10))) //토큰 만료시간 (10분)
 				.withClaim("email", user.getEmail()) //	비공개키. 원하는 정보 여러개 넣을 수 있다.
-				.withClaim("role", user.getRoles().name())
+				.withClaim("role", user.getRoles())
 				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
 		
 

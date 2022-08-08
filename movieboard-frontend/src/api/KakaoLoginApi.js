@@ -37,11 +37,9 @@ const KakaoLogin = (props) => {
             const userEntity = res;
             if(statusCode === 200) {
                 // 로그인 처리
-                
                 post('http://localhost:8080/kakaojwt', userEntity, {"Content-Type": 'application/json'})
                     .then(res => {
                         // 로그인 정보 로컬스토리지에 저장
-                        console.log(userEntity);
                         localStorage.setItem('jwt', JSON.stringify(res.headers.authorization));
                         localStorage.setItem('email', JSON.stringify(userEntity.email));  
                         localStorage.setItem('role', JSON.stringify(userEntity.roles));

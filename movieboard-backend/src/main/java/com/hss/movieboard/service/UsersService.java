@@ -29,7 +29,7 @@ public class UsersService {
 				.pw(bCryptPasswordEncoder.encode(user.getPw())) // 패스워드 암호화
 				.gender(user.getGender())
 				.birth(user.getBirth())
-				.roles(RoleLevel.ROLE_USER)
+				.roles(RoleLevel.ROLE_USER.name())
 				.build();
 		
 		usersRepository.save(userEntity);
