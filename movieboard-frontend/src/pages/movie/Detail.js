@@ -56,7 +56,6 @@ const Detail = (props) => {
     const {login} = props;
     const propsParam = useParams();
     const id =  propsParam.id;
-    const src = process.env.PUBLIC_URL+"/image/";
 
     const [updateTogle, setUpdateTogle] = useState(false);
     const [commentTogle, setCommentTogle] = useState(false);
@@ -83,6 +82,7 @@ const Detail = (props) => {
               })
             .then( res => {
                 setMovie(res);
+                console.log("1 ",res.photo)
             });
 
         if(localStorage.getItem('role') !== null ){
@@ -91,6 +91,8 @@ const Detail = (props) => {
         if(localStorage.getItem('email') !== null ){
             setUserEmail(JSON.parse(localStorage.getItem('email')));
         }
+
+        
     }, [updateTogle]);
     
     // 영화정보 렌더링이 완료되면 감상평 가져오기
@@ -108,7 +110,7 @@ const Detail = (props) => {
         <StyledContainerCard style={{ width: '45rem'}}>
             <StyledCardBody_1>
                 <StyledImgCard>
-                    <Card.Img variant="top" src={src+movie.photo} alt="Movie img"/>
+                    <Card.Img variant="top" src={movie.photo} alt="Movie img"/>
                 </StyledImgCard>
                 <StyledContentCard>
                     <Card.Body>

@@ -92,15 +92,14 @@ public class MovieService {
 		return "ok";
 	}
 
-
+	//사용안함 XXXX AWS S3에 업로드
 	public void savePhoto(MultipartFile file, String filename) throws IllegalStateException, IOException {
 		file.transferTo(new File(folderPath+filename));
 	}
 	
 	
 	public void deletePhoto(Long id) {
-		Optional<Movie> opMovie = movieRepository.findById(id);
-		Movie movie = opMovie.get();
+		Movie movie = movieRepository.findById(id).get();
 		String filename = movie.getPhoto();
 		File file = new File(folderPath + filename);
 		

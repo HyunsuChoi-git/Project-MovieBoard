@@ -28,6 +28,31 @@ spring:
       
   servlet:
     multipart:
+      enabled: true
       max-file-size: 50MB
       max-request-size: 50MB
+      
+
+logging:
+  level:
+    com:
+      amazonaws:
+        internal:
+          InstanceMetadataServiceResourceFetcher: error
+        util:
+          EC2MetadataUtils: error
+          
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIATHHVCPITRLLNSIBD
+      secretKey: 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
+    s3:
+      bucket: movieboardbucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+
           

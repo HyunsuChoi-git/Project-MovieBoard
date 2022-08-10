@@ -30,12 +30,11 @@ const StyledLink = styled(Link)`
 const MovieItem = (props) => {
 
     const { id, title, director, photo, genre, grade } = props.movie;
-    const src = process.env.PUBLIC_URL+"/image/";
 
     return (
         <StyledItemDiv>
             <Card style={{ width: '15rem', height:'28rem'}}>
-                <Card.Img variant="top" src={src+photo} alt="Movie img" height={300}/>
+                <Card.Img variant="top" src={photo} alt="Movie img" height={300}/>
                 <Card.Body>
                     <StyledCardTitle>{title}</StyledCardTitle>
                     <StyledCardText>감독 : {director}</StyledCardText>
