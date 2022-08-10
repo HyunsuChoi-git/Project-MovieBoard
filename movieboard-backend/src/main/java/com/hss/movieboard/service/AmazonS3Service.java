@@ -27,6 +27,7 @@ public class AmazonS3Service {
 	
 	private final MovieRepository movieRepository;
 	private final AmazonS3Client amazonS3Client;
+	private final String basicImgFilename = "/static/basic.png";
 
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
@@ -42,7 +43,7 @@ public class AmazonS3Service {
     // 이미지파일 주소 가져오기
     public String getBasicImgUrl() {
     	URL bucketUrl = amazonS3Client.getUrl(bucket, "/static/basic.png");
-    	String basicImgUrl = bucketUrl.getProtocol()+"://"+bucketUrl.getHost()+"/static/basic.png";
+    	String basicImgUrl = bucketUrl.getProtocol()+"://"+bucketUrl.getHost()+basicImgFilename;
     	System.out.println(basicImgUrl);
         return basicImgUrl;
     }
@@ -52,7 +53,10 @@ public class AmazonS3Service {
     	// 1. DB에서 삭제할 이미지 주소 추출
     	Movie movie = movieRepository.findById(id).get();
 		String fileName = movie.getPhoto();
-    	// 2. aws s3에서 이미지 삭제
+		// 기본이미지일 경우 삭제X
+		if(fileName.contains(basicImgFilename)) return;
+    	
+		// 2. aws s3에서 이미지 삭제
         DeleteObjectRequest deleteFile = new DeleteObjectRequest(bucket, fileName);
         amazonS3Client.deleteObject(deleteFile);
     }
@@ -66,7 +70,6 @@ public class AmazonS3Service {
         System.out.println("- 파일명 : "+fileName);
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
         
-        System.out.println("- 파일명 : "+fileName);
         removeNewFile(uploadFile);
         return uploadImageUrl;
     }

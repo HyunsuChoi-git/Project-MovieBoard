@@ -29,8 +29,6 @@ public class MovieService {
 	private final MovieRepository movieRepository;
 	private final CommentService commentService;
 	
-	private String folderPath = "C:\\Users\\HS\\Desktop\\React workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
-//	private String folderPath = "C:\\Users\\kim\\Desktop\\workspace\\Project-MovieBoard\\movieboard-frontend\\public\\image\\";
 	private String basicFilename = "basic.png";
 	
 	@Transactional   // 서비스 함수가 종료될 때(return될 떄) data를 커밋할 지, 롤백할 지 관리함.
@@ -85,27 +83,11 @@ public class MovieService {
 	@Transactional
 	public String deleteMovie(Long id) {
 
-		deletePhoto(id);
-
 		movieRepository.deleteById(id); //오류가 나면 알아서 exception을 타므로 따로 exception처리 해줄 필요 X
 		commentService.deleteMovieComments(id);
 		return "ok";
 	}
 
-	//사용안함 XXXX AWS S3에 업로드
-	public void savePhoto(MultipartFile file, String filename) throws IllegalStateException, IOException {
-		file.transferTo(new File(folderPath+filename));
-	}
-	
-	
-	public void deletePhoto(Long id) {
-		Movie movie = movieRepository.findById(id).get();
-		String filename = movie.getPhoto();
-		File file = new File(folderPath + filename);
-		
-		if(file.exists() && !filename.equals(basicFilename)) { // 파일이 존재하면
-			file.delete(); // 파일 삭제	
-		}
-	}
+
 
 }
