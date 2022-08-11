@@ -27,6 +27,7 @@
 - JUnit5
 - Spring security
 - JWT
+- AWS S3
 
 #### React
 
