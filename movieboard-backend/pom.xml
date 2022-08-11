@@ -88,8 +88,7 @@
 		    <groupId>com.auth0</groupId>
 		    <artifactId>java-jwt</artifactId>
 		    <version>3.10.2</version>
-		</dependency>
-				
+		</dependency>			
 		<!-- Spring Security 사용을 위한 dependency 등록 End -->
 
 		<dependency> 
@@ -97,7 +96,28 @@
 		    <artifactId>gson</artifactId> 
 		    <version>2.9.0</version> 
 		</dependency>
-
+		
+		<!-- aws -->
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-starter-aws</artifactId>
+		    <version>2.0.1.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-aws-context</artifactId>
+		    <version>1.2.1.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.cloud</groupId>
+		    <artifactId>spring-cloud-aws-autoconfigure</artifactId>
+		    <version>1.2.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>1.11.1000</version>
+		</dependency>
 	</dependencies>
 
 
