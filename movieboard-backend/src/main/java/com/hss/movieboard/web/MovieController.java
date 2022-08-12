@@ -22,7 +22,6 @@ import com.hss.movieboard.service.MovieService;
 import lombok.RequiredArgsConstructor;
 
 //security 라이브러리를 적용하면 CORS정책을 가지고있어서 security 단에서 CORS를 해제해주면 된다.
-@CrossOrigin		// CORS 정책으로 인한 외부 자바스크립트 요청 제한을 해제하는 어노테이션.
 @RestController
 @RequiredArgsConstructor
 public class MovieController {
