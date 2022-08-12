@@ -23,7 +23,6 @@ import com.hss.movieboard.service.CommentService;
 import lombok.RequiredArgsConstructor;
 
 //security 라이브러리를 적용하면 CORS정책을 가지고있어서 security 단에서 CORS를 해제해주면 된다.
-@CrossOrigin		// CORS 정책으로 인한 외부 자바스크립트 요청 제한을 해제하는 어노테이션.
 @RestController
 @RequiredArgsConstructor
 public class CommentController {
@@ -40,7 +39,7 @@ public class CommentController {
 	public ResponseEntity<?> deleteComment(@PathVariable Long id) {
 		return new ResponseEntity<>(commentService.deleteComment(id), HttpStatus.OK);
 	}
-	@CrossOrigin
+
 	@PutMapping("/user/comment/{id}")	//코멘트 수정
 	public ResponseEntity<?> updateComment(@RequestPart("comment") Comment comment) {	
 		return new ResponseEntity<>(commentService.updateComment(comment), HttpStatus.OK);
